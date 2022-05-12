@@ -12,8 +12,6 @@ namespace {
 	use CatPaw\Svelte\lib\Service\SvelteService;
 	use CatPaw\Svelte\lib\SvelteExchanger;
 	use CatPaw\Utility\Strings;
-	use CatPaw\Web\HttpConfiguration;
-	use CatPaw\Web\WebServer;
 
 	/**
 	 * @param SvelteService         $svelte
