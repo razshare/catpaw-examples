@@ -1,4 +1,5 @@
 <?php
+
 namespace {
 
 	use Amp\ByteStream\ClosedException;
@@ -15,39 +16,42 @@ namespace {
 	use Psr\Log\LoggerInterface;
 
 	/**
-	 * @param SvelteService   $svelte
-	 * @param LoggerInterface $logger
-	 * @return Generator
-	 * @throws CancelledException
-	 * @throws ClosedException
-	 * @throws ConnectException
-	 * @throws StreamException
-	 * @throws SvelteException
+	 * 
+	 * @param SvelteService $svelte 
+	 * @param LoggerInterface $logger 
+	 * @return Generator 
+	 * @throws StreamException 
+	 * @throws SvelteException 
+	 * @throws ClosedException 
+	 * @throws CancelledException 
+	 * @throws ConnectException 
+	 * @throws Error 
 	 */
 	#[StartWebServer]
-    function main(
-        SvelteService $svelte,
-        LoggerInterface $logger,
-    ): Generator {
-        /** @var Process $process */
-        [
-            "process" => $process,
-            "secret" => $secret,
-        ] = yield $svelte->start("127.0.0.1",5757,Strings::uuid(),'./providers/tmp',function(){});
+	function main(
+		SvelteService $svelte,
+		LoggerInterface $logger,
+	): Generator {
+		/** @var Process $process */
+		[
+			"process" => $process,
+			"secret" => $secret,
+		] = yield $svelte->start("127.0.0.1", 5757, Strings::uuid(), './providers/tmp', function () {
+		});
 
 		$pid = $process->getPid();
+
 
 		$logger->info("Svelte provider process started with pid $pid");
 
 		/** @var SvelteExchanger $exchange */
-		$exchange = yield $svelte->connect("127.0.0.1",5757, $secret);
+		$exchange = yield $svelte->connect("127.0.0.1", 5757, $secret);
 
 
-		Route::get("/",function() use($exchange) {
+		Route::get("/", function () use ($exchange) {
 			return yield $exchange->ssr(<<<SVELTE
 			hello
 			SVELTE);
 		});
-		
-    }
+	}
 }
