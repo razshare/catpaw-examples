@@ -21,33 +21,31 @@
     "start:svelte": "@script src/modules/main.php",
     "dev:svelte": "@start:modules dev 100 && @dev:modules",
     
-    "start:web:example:hello-world": "@script examples/hello-world/main.php",
+    "start:web:example:hello-world": "@script src/web/hello-world/main.php",
     "dev:web:example:hello-world": "@start:web:example:hello-world dev 100 && @dev:web:example:hello-world",
-    "start:web:example:cats": "@script examples/cats/main.php",
-    "dev:web:example:cats": "@script examples/cats/main.php dev 100 && @dev:web:example:cats",
-    "start:web:example:params": "@script examples/params/main.php",
-    "dev:web:example:params": "@script examples/params/main.php dev 100 && @dev:web:example:params",
-    "start:web:example:not-found": "@script examples/not-found/main.php",
+    "start:web:example:cats": "@script src/web/cats/main.php",
+    "dev:web:example:cats": "@start:web:example:cats dev 100 && @dev:web:example:cats",
+    "start:web:example:params": "@script src/web/params/main.php",
+    "dev:web:example:params": "@start:web:example:params dev 100 && @dev:web:example:params",
+    "start:web:example:not-found": "@script src/web/not-found/main.php",
     "dev:web:example:not-found": "@start:web:example:not-found dev 100 && @dev:web:example:not-found",
-    "start:web:example:session": "@script examples/session/main.php",
+    "start:web:example:session": "@script src/web/session/main.php",
     "dev:web:example:session": "@start:web:example:session dev 100 && @dev:web:example:session",
-    "start:web:example:application-scoped-entry": "@script examples/application-scoped-entry/main.php",
-    "dev:web:example:application-scoped-entry": "@start:web:example:application-scoped-entry dev 100 && @dev:web:example:application-scoped-entry",
-    "start:web:example:modules": "@script examples/modules/main.php",
+    "start:web:example:modules": "@script src/web/modules/main.php",
     "dev:web:example:modules": "@start:web:example:modules dev 100 && @dev:web:example:modules",
-    "start:web:example:web-socket": "@script examples/web-socket/main.php",
+    "start:web:example:web-socket": "@script src/web/web-socket/main.php",
     "dev:web:example:web-socket": "@start:web:example:web-socket dev 100 && @dev:web:example:web-socket",
-    "start:web:example:byte-range": "@script examples/byte-range/main.php",
+    "start:web:example:byte-range": "@script src/web/byte-range/main.php",
     "dev:web:example:byte-range": "@start:web:example:byte-range dev 100 && @dev:web:example:byte-range",
-    "start:web:example:custom-attributes": "@script examples/custom-attributes/main.php",
+    "start:web:example:custom-attributes": "@script src/web/custom-attributes/main.php",
     "dev:web:example:custom-attributes": "@start:web:example:custom-attributes dev 100 && @dev:web:example:custom-attributes",
-    "start:web:example:filters": "@script examples/filters/main.php",
+    "start:web:example:filters": "@script src/web/filters/main.php",
     "dev:web:example:filters": "@start:web:example:filters dev 100 && @dev:web:example:filters",
 
-    "start:example:mysql": "@script examples/mysql/main.php",
+    "start:example:mysql": "@script src/mysql/main.php",
     "dev:example:mysql": "@start:example:mysql dev 100 && @dev:example:mysql",
 
-    "start:example:raspberrypi": "@script examples/raspberrypi/main.php",
+    "start:example:raspberrypi": "@script src/raspberrypi/main.php",
     "dev:example:raspberrypi": "@start:example:raspberrypi dev 100 && @dev:example:raspberrypi"
   },
   "authors": [
@@ -58,11 +56,6 @@
       "role": "Developer"
     }
   ],
-  "autoload": {
-    "psr-4": {
-      "App\\": "src/lib/"
-    }
-  },
   "require": {
     "php": "^8.0",
     "catpaw/core": "^1.2",
