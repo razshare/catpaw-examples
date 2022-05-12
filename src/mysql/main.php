@@ -14,23 +14,16 @@ namespace {
 		$db->setPool(
 			poolName: "main",
 			host    : "127.0.0.1",
-			user    : "razvan",
-			password: "razvan",
+			user    : "myuser",
+			password: "mypassword",
 			database: "genericstore"
 		);
 
 		Route::get(
 			path    : "/",
-			callback: fn(
-				#[Repository("account")]
-				$updateByLikeEmail
-			) => $updateByLikeEmail(
-				[
-					"email" => "new@gmail.com",    //payload
-				],
-				[
-					"email" => "my@gmail.com",    //lookup
-				],
+			callback: fn(#[Repository("account")] $updateByLikeEmail) => $updateByLikeEmail(
+				["email" => "new@gmail.com"], //payload
+				["email" => "my@gmail.com"],//lookup
 			)
 		);
 

@@ -12,6 +12,8 @@ namespace {
 	use CatPaw\Svelte\lib\Service\SvelteService;
 	use CatPaw\Svelte\lib\SvelteExchanger;
 	use CatPaw\Utility\Strings;
+	use CatPaw\Web\HttpConfiguration;
+	use CatPaw\Web\WebServer;
 
 	/**
 	 * @param SvelteService         $svelte
@@ -35,15 +37,14 @@ namespace {
 		/** @var Process $process */
 
 		[
-			"process"   => $process,
-			"secret"    => $secret,
+			"process" => $process,
+			"secret"  => $secret,
 		] = yield $svelte->start($hostname, $port, $secret, $dump, function() {
 			echo "Process is over.\n";
 		});
 
 		/** @var SvelteExchanger $svelte */
 		try {
-			$svelte->setNode("/home/razvan/node/bin/node");
 			$svelte = yield $svelte->connect($hostname, $port, $secret);
 
 			$source = $encoder
