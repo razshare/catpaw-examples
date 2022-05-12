@@ -46,7 +46,10 @@
     "dev:example:mysql": "@start:example:mysql dev 100 && @dev:example:mysql",
 
     "start:example:raspberrypi": "@script src/raspberrypi/main.php",
-    "dev:example:raspberrypi": "@start:example:raspberrypi dev 100 && @dev:example:raspberrypi"
+    "dev:example:raspberrypi": "@start:example:raspberrypi dev 100 && @dev:example:raspberrypi",
+
+    "start:example:svelte": "@script src/svelte/main.php",
+    "dev:example:svelte": "@start:example:svelte dev 100 && @dev:example:svelte"
   },
   "authors": [
     {
@@ -61,7 +64,8 @@
     "catpaw/core": "^1.2",
     "catpaw/web": "^1.1",
     "catpaw/mysql": "^1.1",
-    "catpaw/raspberrypi": "^1.2"
+    "catpaw/raspberrypi": "^1.2",
+    "catpaw/svelte": "^0.1"
   },
   "require-dev": {
     "amphp/phpunit-util": "^2.0",

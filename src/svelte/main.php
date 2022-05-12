@@ -29,8 +29,7 @@ namespace {
 	): Generator {
 		$hostname = "127.0.0.1";
 		$port = 5757;
-//		$secret = Strings::uuid();
-		$secret = "secret";
+		$secret = Strings::uuid();
 		$dump = "./providers/tmp";
 
 		/** @var Process $process */
@@ -44,6 +43,7 @@ namespace {
 
 		/** @var SvelteExchanger $svelte */
 		try {
+			$svelte->setNode("/home/razvan/node/bin/node");
 			$svelte = yield $svelte->connect($hostname, $port, $secret);
 
 			$source = $encoder
@@ -68,10 +68,10 @@ namespace {
 			echo $e->getMessage().PHP_EOL;
 		}
 
-//		try {
-//			$process->kill();
-//		} catch(Throwable $e) {
-//			echo $e->getMessage();
-//		}
+		try {
+			$process->kill();
+		} catch(Throwable $e) {
+			echo $e->getMessage();
+		}
 	}
 }
