@@ -17,10 +17,11 @@ namespace {
 	 * @param SvelteService         $svelte
 	 * @param RequestEncoderService $encoder
 	 * @return Generator
-	 * @throws StreamException
-	 * @throws ClosedException
 	 * @throws CancelledException
+	 * @throws ClosedException
 	 * @throws ConnectException
+	 * @throws StreamException
+	 * @throws SvelteException
 	 */
 	function main(
 		SvelteService         $svelte,
@@ -33,42 +34,35 @@ namespace {
 
 		/** @var Process $process */
 
-		[
-			"process" => $process,
-			"secret"  => $secret,
-		] = yield $svelte->start($hostname, $port, $secret, $dump, function() {
+		[ "process" => $process, "secret"  => $secret ] = yield $svelte->start($hostname, $port, $secret, $dump, function () {
 			echo "Process is over.\n";
 		});
 
-		/** @var SvelteExchanger $svelte */
 		try {
 			$svelte = yield $svelte->connect($hostname, $port, $secret);
+			/** @var SvelteExchanger $svelte */
 
-			$source = $encoder
-				->setGenerate('ssr')
-				->setFormat('esm')
-				->setProperties([
-									"name" => "test",
-								])
-				->setBody(<<<SVELTE
+
+			echo yield $svelte->ssr(
+				<<<SVELTE
 				<script>
 					export let name = 'world'
 				</script>
 				<!-- this is a comment -->
 				<b>hello {name}</b>
-				SVELTE
-				)
-				->build();
-
-			echo yield $svelte->ssr($source);
+				SVELTE,
+				[
+					"name" => "world!"
+				]
+			);
 			echo PHP_EOL;
-		} catch(Throwable $e) {
-			echo $e->getMessage().PHP_EOL;
+		} catch (Throwable $e) {
+			echo $e->getMessage() . PHP_EOL;
 		}
 
 		try {
 			$process->kill();
-		} catch(Throwable $e) {
+		} catch (Throwable $e) {
 			echo $e->getMessage();
 		}
 	}

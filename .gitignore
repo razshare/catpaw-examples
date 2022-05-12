@@ -1,7 +1,6 @@
 /vendor/
 /tmp/
 /composer.lock
-/.vscode/
 /.settings/
 /nbproject/
 *.log
@@ -9,6 +8,5 @@
 *.pem
 /composer.phar
 /.history/
-/.idea/
 /.sessions/
 /node_modules/

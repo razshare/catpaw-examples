@@ -5,9 +5,11 @@ namespace {
 	use Amp\ByteStream\ClosedException;
 	use Amp\ByteStream\StreamException;
 	use Amp\CancelledException;
+	use Amp\Http\Server\Response;
 	use Amp\Process\Process;
 	use Amp\Socket\ConnectException;
 	use CatPaw\Svelte\Exceptions\SvelteException;
+	use CatPaw\Svelte\Models\SvelteSSROutput;
 	use CatPaw\Svelte\Services\SvelteService;
 	use CatPaw\Svelte\SvelteExchanger;
 	use CatPaw\Utilities\Strings;
@@ -16,15 +18,15 @@ namespace {
 	use Psr\Log\LoggerInterface;
 
 	/**
-	 * 
-	 * @param SvelteService $svelte 
-	 * @param LoggerInterface $logger 
-	 * @return Generator 
+	 *
+	 * @param SvelteService   $svelte
+	 * @param LoggerInterface $logger
+	 * @return Generator
 	 * @throws StreamException
 	 * @throws ClosedException
-	 * @throws CancelledException 
-	 * @throws ConnectException 
-	 * @throws Error 
+	 * @throws CancelledException
+	 * @throws ConnectException
+	 * @throws SvelteException
 	 */
 	#[StartWebServer]
 	function main(
@@ -48,9 +50,13 @@ namespace {
 
 
 		Route::get("/", function () use ($exchange) {
-			return yield $exchange->ssr(<<<SVELTE
+			/** @var SvelteSSROutput $output */
+			if(!$output = yield $exchange->ssr(<<<SVELTE
 			hello
-			SVELTE);
+			SVELTE)) return "";
+
+
+			return $output->html;
 		});
 	}
 }

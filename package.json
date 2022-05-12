@@ -18,5 +18,8 @@
   "homepage": "https://github.com/tncrazvan/catpaw-examples#readme",
   "devDependencies": {
     "svelte": "^3.48.0"
+  },
+  "dependencies": {
+    "prettier": "^2.6.2"
   }
 }
