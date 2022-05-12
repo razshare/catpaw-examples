@@ -7,22 +7,48 @@
   "keywords": [
     "php",
     "cli",
-    "server",
-    "http",
-    "websocket",
-    "starter",
-    "template",
-    "catpaw"
+    "catpaw",
+    "examples"
   ],
   "scripts": {
     "load": "@composer dump-autoload -o",
     "script": "@php ./vendor/catpaw/core/scripts/start.php",
+    
     "start:hello-world": "@script src/hello-world/main.php",
     "dev:hello-world": "@start:hello-world dev 100 && @dev:hello-world",
     "start:modules": "@script src/modules/main.php",
     "dev:modules": "@start:modules dev 100 && @dev:modules",
     "start:svelte": "@script src/modules/main.php",
-    "dev:svelte": "@start:modules dev 100 && @dev:modules"
+    "dev:svelte": "@start:modules dev 100 && @dev:modules",
+    
+    "start:web:example:hello-world": "@script examples/hello-world/main.php",
+    "dev:web:example:hello-world": "@start:web:example:hello-world dev 100 && @dev:web:example:hello-world",
+    "start:web:example:cats": "@script examples/cats/main.php",
+    "dev:web:example:cats": "@script examples/cats/main.php dev 100 && @dev:web:example:cats",
+    "start:web:example:params": "@script examples/params/main.php",
+    "dev:web:example:params": "@script examples/params/main.php dev 100 && @dev:web:example:params",
+    "start:web:example:not-found": "@script examples/not-found/main.php",
+    "dev:web:example:not-found": "@start:web:example:not-found dev 100 && @dev:web:example:not-found",
+    "start:web:example:session": "@script examples/session/main.php",
+    "dev:web:example:session": "@start:web:example:session dev 100 && @dev:web:example:session",
+    "start:web:example:application-scoped-entry": "@script examples/application-scoped-entry/main.php",
+    "dev:web:example:application-scoped-entry": "@start:web:example:application-scoped-entry dev 100 && @dev:web:example:application-scoped-entry",
+    "start:web:example:modules": "@script examples/modules/main.php",
+    "dev:web:example:modules": "@start:web:example:modules dev 100 && @dev:web:example:modules",
+    "start:web:example:web-socket": "@script examples/web-socket/main.php",
+    "dev:web:example:web-socket": "@start:web:example:web-socket dev 100 && @dev:web:example:web-socket",
+    "start:web:example:byte-range": "@script examples/byte-range/main.php",
+    "dev:web:example:byte-range": "@start:web:example:byte-range dev 100 && @dev:web:example:byte-range",
+    "start:web:example:custom-attributes": "@script examples/custom-attributes/main.php",
+    "dev:web:example:custom-attributes": "@start:web:example:custom-attributes dev 100 && @dev:web:example:custom-attributes",
+    "start:web:example:filters": "@script examples/filters/main.php",
+    "dev:web:example:filters": "@start:web:example:filters dev 100 && @dev:web:example:filters",
+
+    "start:example:mysql": "@script examples/mysql/main.php",
+    "dev:example:mysql": "@start:example:mysql dev 100 && @dev:example:mysql",
+
+    "start:example:raspberrypi": "@script examples/raspberrypi/main.php",
+    "dev:example:raspberrypi": "@start:example:raspberrypi dev 100 && @dev:example:raspberrypi"
   },
   "authors": [
     {
@@ -39,9 +65,14 @@
   },
   "require": {
     "php": "^8.0",
-    "catpaw/core": "^1.1",
-    "amphp/amp": "^2.6",
-    "amphp/file": "^2.0"
+    "catpaw/core": "^1.2",
+    "catpaw/web": "^1.1",
+    "catpaw/mysql": "^1.1",
+    "catpaw/raspberrypi": "^1.2"
+  },
+  "require-dev": {
+    "amphp/phpunit-util": "^2.0",
+    "phpunit/phpunit": "^9.5"
   },
   "config": {
     "preferred-install": "dist",
