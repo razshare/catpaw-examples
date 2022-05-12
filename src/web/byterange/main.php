@@ -9,13 +9,13 @@ namespace {
 	use Amp\LazyPromise;
 	use Amp\Producer;
 	use Amp\Promise;
-	use CatPaw\Web\Attribute\Produces;
-	use CatPaw\Web\Attribute\RequestHeader;
-	use CatPaw\Web\Attribute\StartWebServer;
-	use CatPaw\Web\Exception\InvalidByteRangeQueryException;
-	use CatPaw\Web\Interface\ByteRangeWriterInterface;
-	use CatPaw\Web\Service\ByteRangeService;
-	use CatPaw\Web\Utility\Route;
+	use CatPaw\Web\Attributes\Produces;
+	use CatPaw\Web\Attributes\RequestHeader;
+	use CatPaw\Web\Attributes\StartWebServer;
+	use CatPaw\Web\Exceptions\InvalidByteRangeQueryException;
+	use CatPaw\Web\Interfaces\ByteRangeWriterInterface;
+	use CatPaw\Web\Services\ByteRangeService;
+	use CatPaw\Web\Utilities\Route;
 	use function Amp\File\getSize;
 	use function Amp\File\openFile;
 

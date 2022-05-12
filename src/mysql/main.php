@@ -2,10 +2,10 @@
 
 namespace {
 
-	use CatPaw\MYSQL\Attribute\Repository;
-	use CatPaw\MYSQL\Service\DatabaseService;
-	use CatPaw\Web\Attribute\StartWebServer;
-	use CatPaw\Web\Utility\Route;
+	use CatPaw\MYSQL\Attributes\Repository;
+	use CatPaw\MYSQL\Services\DatabaseService;
+	use CatPaw\Web\Attributes\StartWebServer;
+	use CatPaw\Web\Utilities\Route;
 
 	#[StartWebServer]
 	function main(

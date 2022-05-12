@@ -7,18 +7,17 @@ namespace {
 	use Amp\CancelledException;
 	use Amp\Process\Process;
 	use Amp\Socket\ConnectException;
-	use CatPaw\Svelte\lib\Exception\SvelteException;
-	use CatPaw\Svelte\lib\Service\RequestEncoderService;
-	use CatPaw\Svelte\lib\Service\SvelteService;
-	use CatPaw\Svelte\lib\SvelteExchanger;
-	use CatPaw\Utility\Strings;
+	use CatPaw\Svelte\Exceptions\SvelteException;
+	use CatPaw\Svelte\Services\RequestEncoderService;
+	use CatPaw\Svelte\Services\SvelteService;
+	use CatPaw\Svelte\SvelteExchanger;
+	use CatPaw\Utilities\Strings;
 
 	/**
 	 * @param SvelteService         $svelte
 	 * @param RequestEncoderService $encoder
 	 * @return Generator
 	 * @throws StreamException
-	 * @throws SvelteException
 	 * @throws ClosedException
 	 * @throws CancelledException
 	 * @throws ConnectException

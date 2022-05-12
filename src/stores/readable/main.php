@@ -4,7 +4,6 @@ namespace {
 
 	use function Amp\delay;
 	use function CatPaw\Store\readable;
-	use function CatPaw\Store\writable;
 
 	function main() {
 		$time = readable(time(), function($set) {
