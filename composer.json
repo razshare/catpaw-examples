@@ -57,7 +57,7 @@
     "catpaw/mysql": "^1.1",
     "catpaw/raspberrypi": "^1.2",
     "catpaw/store": "^1.0",
-    "ext-pcntl": "*"
+    "catpaw/openapi": "^1.0"
   },
   "require-dev": {
     "amphp/phpunit-util": "^2.0",
