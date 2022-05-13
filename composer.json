@@ -40,9 +40,7 @@
     "start:mysql": "@script src/mysql/main.php",
     "dev:mysql": "@start:mysql dev 100 && @dev:mysql",
     "start:raspberrypi": "@script src/raspberrypi/main.php",
-    "dev:raspberrypi": "@start:raspberrypi dev 100 && @dev:raspberrypi",
-    "start:web:svelte": "@script src/web/svelte/main.php",
-    "dev:web:svelte": "@start:web:svelte dev 100 && @dev:web:svelte"
+    "dev:raspberrypi": "@start:raspberrypi dev 100 && @dev:raspberrypi"
   },
   "authors": [
     {
@@ -58,7 +56,6 @@
     "catpaw/web": "^1.1",
     "catpaw/mysql": "^1.1",
     "catpaw/raspberrypi": "^1.2",
-    "catpaw/svelte": "^0.1",
     "catpaw/store": "^1.0",
     "ext-pcntl": "*"
   },
