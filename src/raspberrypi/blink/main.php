@@ -5,7 +5,7 @@ namespace {
     use CatPaw\RaspberryPI\Attributes\GPIO;
 
     function main(
-        #[GPIO("12","write")] $set12
+        #[GPIO("12", "write")] $set12
     ) {
         $led = false;
         while (true) {

@@ -2,9 +2,9 @@
 
 namespace {
 
-	use function Examples\Modules\test;
+    use function Examples\Modules\test;
 
-	function main(): void {
-	    echo test().PHP_EOL;
-	}
+    function main(): void {
+        echo test().PHP_EOL;
+    }
 }
