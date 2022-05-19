@@ -10,27 +10,25 @@ namespace {
 
 	#[StartWebServer]
 	function main() {
+	    $cats = [];
 
-		$cats = [];
-
-		Route::get(
+	    Route::get(
 			path    : "/cats",
 			callback: #[Produces("application/json")]
 			function() use (&$cats) {
-				return $cats;
+			    return $cats;
 			}
 		);
 
-		Route::post(
+	    Route::post(
 			path    : "/cats",
 			callback: #[Consumes("application/json")]
 			function(
 				#[RequestBody]
 				array $cat
 			) use (&$cats) {
-				$cats[] = $cat;
+			    $cats[] = $cat;
 			}
 		);
-
 	}
 }

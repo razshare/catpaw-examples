@@ -11,15 +11,14 @@ namespace {
 
 	#[StartWebServer]
 	function main() {
+	    $filter1 = fn(#[PathParam] int $value) => $value > 0 ? true : new Response(Status::BAD_REQUEST, [], "Bad request :/");
 
-		$filter1 = fn(#[PathParam] int $value) => $value > 0 ? true : new Response(Status::BAD_REQUEST, [], "Bad request :/");
-
-		Route::get(
+	    Route::get(
 			path    : "/{value}",
 			callback: [
-						  $filter1,
-						  fn(#[PathParam] int $value) => $value,
-					  ]
+			    $filter1,
+			    fn(#[PathParam] int $value) => $value,
+			]
 		);
 	}
 }

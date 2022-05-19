@@ -11,7 +11,7 @@ namespace {
 	function main(
 		DatabaseService $db
 	) {
-		$db->setPool(
+	    $db->setPool(
 			poolName: "main",
 			host    : "127.0.0.1",
 			user    : "myuser",
@@ -19,7 +19,7 @@ namespace {
 			database: "genericstore"
 		);
 
-		Route::get(
+	    Route::get(
 			path    : "/",
 			callback: fn(#[Repository("account")] $updateByLikeEmail) => $updateByLikeEmail(
 				["email" => "new@gmail.com"], //payload
@@ -27,6 +27,6 @@ namespace {
 			)
 		);
 
-		echo Route::describe();
+	    echo Route::describe();
 	}
 }

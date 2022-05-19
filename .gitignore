@@ -8,5 +8,6 @@
 *.pem
 /composer.phar
 /.history/
+/.idea/
 /.sessions/
-/node_modules/
+.php-cs-fixer.cache

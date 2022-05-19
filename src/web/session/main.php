@@ -10,18 +10,19 @@ namespace {
 
 	#[StartWebServer]
 	function main() {
-		Route::get("/",
+	    Route::get("/",
 			#[Produces("text/html")]
 			function(
 				 #[Session]
 				array &$session,
 			) {
-				if(!isset($session['created']))
-					$session['created'] = time();
+			    if (!isset($session['created'])) {
+			        $session['created'] = time();
+			    }
 
-				$contents = print_r($session, true);
+			    $contents = print_r($session, true);
 
-				return <<<HTML
+			    return <<<HTML
 					this is my session <br /><pre>$contents</pre>
 				HTML;
 			}

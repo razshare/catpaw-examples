@@ -1,7 +1,7 @@
 <?php
 
 namespace {
-    function main(){
+    function main() {
         echo "hello world\n";
     }
 }

@@ -13,6 +13,10 @@
   "scripts": {
     "load": "@composer dump-autoload -o",
     "script": "@php ./vendor/catpaw/core/scripts/start.php",
+    "fix": [
+      "@php ./vendor/bin/php-cs-fixer fix src",
+      "@php ./vendor/bin/php-cs-fixer fix tests"
+    ],
     "start:helloworld": "@script src/helloworld/main.php",
     "dev:helloworld": "composer start:helloworld dev 100 && composer dev:helloworld",
     "start:modules": "@script src/modules/main.php",
@@ -59,9 +63,9 @@
     "catpaw/store": "^1.0",
     "catpaw/openapi": "^1.0"
   },
-  "require-dev": {
-    "amphp/phpunit-util": "^2.0",
-    "phpunit/phpunit": "^9.5"
+  "require-dev":{
+    "phpunit/phpunit": "^9.5",
+    "friendsofphp/php-cs-fixer": "^3.8"
   },
   "config": {
     "preferred-install": "dist",
