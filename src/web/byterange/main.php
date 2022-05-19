@@ -77,13 +77,13 @@ namespace {
                         ],
                         stringOrStream: new IteratorStream(
                             new Producer(function($emit) use ($filename) {
-                                                /** @var File $file */
-                                                $file = yield openFile($filename, "r");
-                                                while ($chunk = yield $file->read(65536)) {
-                                                    yield $emit($chunk);
-                                                }
-                                                yield $file->close();
-                                            })
+                                /** @var File $file */
+                                $file = yield openFile($filename, "r");
+                                while ($chunk = yield $file->read(65536)) {
+                                    yield $emit($chunk);
+                                }
+                                yield $file->close();
+                            })
                         )
                     );
                 }
