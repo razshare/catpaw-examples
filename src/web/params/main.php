@@ -7,7 +7,7 @@ namespace {
     use CatPaw\Web\Utilities\Route;
 
     #[StartWebServer]
-    function main() {
+    function main(): void {
         Route::get("/account/{username}", function(
             #[PathParam]
             string $username
