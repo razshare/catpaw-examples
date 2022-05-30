@@ -2,23 +2,23 @@
 
 namespace {
 
-    use CatPaw\Web\Attributes\PathParam;
+    use CatPaw\Web\Attributes\Param;
     use CatPaw\Web\Attributes\StartWebServer;
     use CatPaw\Web\Utilities\Route;
 
     #[StartWebServer]
     function main(): void {
         Route::get("/account/{username}", function(
-            #[PathParam]
+            #[Param]
             string $username
         ) {
             return "hello $username.";
         });
 
         Route::get("/account/{username}/active/{active}", function(
-            #[PathParam]
+            #[Param]
             string $username,
-            #[PathParam]
+            #[Param]
             bool $active
         ) {
             if ($active) {
@@ -28,9 +28,9 @@ namespace {
         });
 
         Route::get("/account/{username}/{page}", function(
-            #[PathParam]
+            #[Param]
             string $username,
-            #[PathParam]
+            #[Param]
             string $page
         ) {
             return "hello $username, you are looking at page $page.";
