@@ -2,12 +2,15 @@
 
 namespace {
 
+    use function Amp\call;
+    use Amp\Promise;
     use Amp\Websocket\Client;
     use Amp\Websocket\Message;
     use Amp\Websocket\Server\Gateway;
     use CatPaw\Web\Attributes\StartWebServer;
     use CatPaw\Web\Interfaces\WebSocketInterface;
     use CatPaw\Web\Utilities\Route;
+
     use Psr\Log\LoggerInterface;
 
     #[StartWebServer]
@@ -21,22 +24,24 @@ namespace {
                     public function __construct(private LoggerInterface $logger) {
                     }
 
-                    public function onStart(Gateway $gateway) {
+                    public function onStart(Gateway $gateway):Promise {
                         // TODO: Implement onStart() method.
+                        return call(fn() => true);
                     }
 
-                    public function onMessage(Message $message, Gateway $gateway, Client $client): Generator {
+                    public function onMessage(Message $message, Gateway $gateway, Client $client): Promise {
                         // TODO: Implement onMessage() method.
-                        $this->logger->info("Message:".(yield $message->read()));
+                        return call(fn() => $this->logger->info("Message:".(yield $message->read())));
                     }
 
-                    public function onClose(Client $client, int $code, string $reason) {
+                    public function onClose(Client $client, int $code, string $reason):Promise {
                         // TODO: Implement onClose() method.
+                        return call(fn() => true);
                     }
 
-                    public function onError(Throwable $e) {
+                    public function onError(Throwable $e):Promise {
                         // TODO: Implement onError() method.
-                        $this->logger->error($e->getMessage());
+                        return call(fn() => $this->logger->error($e->getMessage()));
                     }
                 };
             }
