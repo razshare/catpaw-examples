@@ -30,7 +30,7 @@ namespace {
                         $this->logger->info("Message:".(yield $message->read()));
                     }
 
-                    public function onClose(...$args) {
+                    public function onClose(Client $client, int $code, string $reason) {
                         // TODO: Implement onClose() method.
                     }
 
