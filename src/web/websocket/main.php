@@ -24,24 +24,24 @@ namespace {
                     public function __construct(private LoggerInterface $logger) {
                     }
 
-                    public function onStart(Gateway $gateway):Promise {
+                    public function onStart(Gateway $gateway) {
                         // TODO: Implement onStart() method.
-                        return call(fn() => true);
+                        $this->logger->info("Connection opened.");
                     }
 
-                    public function onMessage(Message $message, Gateway $gateway, Client $client): Promise {
+                    public function onMessage(Message $message, Gateway $gateway, Client $client) {
                         // TODO: Implement onMessage() method.
-                        return call(fn() => $this->logger->info("Message:".(yield $message->read())));
+                        $this->logger->info("Message:".(yield $message->read()));
                     }
 
-                    public function onClose(Client $client, int $code, string $reason):Promise {
+                    public function onClose(Client $client, int $code, string $reason) {
                         // TODO: Implement onClose() method.
-                        return call(fn() => true);
+                        $this->logger->info("Connection closed.");
                     }
 
-                    public function onError(Throwable $e):Promise {
+                    public function onError(Throwable $e) {
                         // TODO: Implement onError() method.
-                        return call(fn() => $this->logger->error($e->getMessage()));
+                        $this->logger->error($e->getMessage());
                     }
                 };
             }
