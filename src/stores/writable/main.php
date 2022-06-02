@@ -6,7 +6,7 @@ namespace {
     use function CatPaw\Store\writable;
 
     function main() {
-        $time = writable(time());
+        $time        = writable(time());
         $unsubscribe = $time->subscribe(fn($time) => print("the time is $time\n"));
 
         //unsubscribing mid execution, you should see only 4 prints in the console (instead of 6)

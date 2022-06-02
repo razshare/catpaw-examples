@@ -20,11 +20,11 @@ namespace {
                 path    : "/plain",
                 callback: #[OpenAPIRoute([
                     "Success" => [
-                        "status" => Status::OK,
+                        "status"   => Status::OK,
                         "response" => "string",
                     ],
                     "The query string 'name' has not been provided" => [
-                        "status" => Status::BAD_REQUEST,
+                        "status"   => Status::BAD_REQUEST,
                         "response" => "string",
                     ],
                 ])]

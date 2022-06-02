@@ -30,12 +30,12 @@ namespace {
                 ByteRangeService $service
             ) {
                 $filename = "public/videoplayback.mp4";
-                $length = yield getSize($filename);
+                $length   = yield getSize($filename);
                 try {
                     return $service->response(
                         rangeQuery: $range[0] ?? "",
                         headers   : [
-                            "Content-Type" => "audio/mp4",
+                            "Content-Type"   => "audio/mp4",
                             "Content-Length" => $length,
                         ],
                         writer    : new class($filename) implements ByteRangeWriterInterface {
@@ -71,8 +71,8 @@ namespace {
                     return new Response(
                         code          : Status::OK,
                         headers       : [
-                            "Accept-Ranges" => "bytes",
-                            "Content-Type" => "audio/mp4",
+                            "Accept-Ranges"  => "bytes",
+                            "Content-Type"   => "audio/mp4",
                             "Content-Length" => $length,
                         ],
                         stringOrStream: new IteratorStream(
