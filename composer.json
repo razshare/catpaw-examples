@@ -11,13 +11,13 @@
     "examples"
   ],
   "scripts": {
-    "load": "@composer dump-autoload -o",
-    "script": "@php ./vendor/catpaw/core/scripts/start.php",
+    "load": "composer dump-autoload -o",
+    "script": "php ./vendor/catpaw/core/scripts/start.php",
     "fix": [
-      "@php ./vendor/bin/php-cs-fixer fix src",
-      "@php ./vendor/bin/php-cs-fixer fix tests"
+      "php ./vendor/bin/php-cs-fixer fix src",
+      "php ./vendor/bin/php-cs-fixer fix tests"
     ],
-    "test": "@php vendor/bin/phpunit tests",
+    "test": "php vendor/bin/phpunit tests",
     "start:helloworld": "@script src/helloworld/main.php",
     "dev:helloworld": "composer start:helloworld dev 100 && composer dev:helloworld",
     "start:modules": "@script src/modules/main.php",
