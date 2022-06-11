@@ -44,26 +44,20 @@ namespace {
                             public function __construct(private string $filename) {
                             }
 
-                            public function start(): Promise {
-                                return new LazyPromise(function() {
-                                    $this->file = yield openFile($this->filename, "r");
-                                });
+                            public function start() {
+                                $this->file = yield openFile($this->filename, "r");
                             }
 
 
-                            public function data(callable $emit, int $start, int $length): Promise {
-                                return new LazyPromise(function() use ($emit, $start, $length) {
-                                    yield $this->file->seek($start);
-                                    $data = yield $this->file->read($length);
-                                    yield $emit($data);
-                                });
+                            public function data(callable $emit, int $start, int $length) {
+                                yield $this->file->seek($start);
+                                $data = yield $this->file->read($length);
+                                yield $emit($data);
                             }
 
 
-                            public function end(): Promise {
-                                return new LazyPromise(function() {
-                                    yield $this->file->close();
-                                });
+                            public function end() {
+                                yield $this->file->close();
                             }
                         }
                     );
