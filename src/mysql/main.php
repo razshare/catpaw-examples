@@ -23,7 +23,7 @@ namespace {
             path    : "/",
             callback: fn(#[Repository("account")] $updateByLikeEmail) => $updateByLikeEmail(
                 ["email" => "new@gmail.com"], //payload
-                ["email" => "my@gmail.com"],//lookup
+                ["email" => "my@gmail.com"], //lookup
             )
         );
 
