@@ -19,7 +19,10 @@
     "test": "php -dxdebug.start_with_request=yes -dxdebug.mode=debug vendor/bin/phpunit tests",
     "start": "php -dxdebug.start_with_request=yes -dxdebug.mode=debug ./bin/start -v -f",
     "start:helloworld": "@start src/helloworld/main.php",
-    "start:modules": "@start src/modules/main.php",
+    "start:mysql": "@start src/mysql/main.php",
+    "start:raspberrypi": "@start src/raspberrypi/main.php",
+    "start:stores:readable": "@start src/stores/readable/main.php",
+    "start:stores:writable": "@start src/stores/writable/main.php",
     "start:web:helloworld": "@start src/web/helloworld/main.php",
     "start:web:cats": "@start src/web/cats/main.php",
     "start:web:params": "@start src/web/params/main.php",
@@ -29,9 +32,7 @@
     "start:web:websocket": "@start src/web/websocket/main.php",
     "start:web:byterange": "@start src/web/byterange/main.php",
     "start:web:customattributes": "@start src/web/customattributes/main.php",
-    "start:web:filters": "@start src/web/filters/main.php",
-    "start:mysql": "@start src/mysql/main.php",
-    "start:raspberrypi": "@start src/raspberrypi/main.php"
+    "start:web:filters": "@start src/web/filters/main.php"
 
   },
   "authors": [{
