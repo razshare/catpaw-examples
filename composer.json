@@ -12,49 +12,34 @@
   ],
   "scripts": {
     "load": "composer dump-autoload -o",
-    "script": "php -dxdebug.start_with_request=yes -dxdebug.mode=debug ./bin/start",
     "fix": [
       "php ./vendor/bin/php-cs-fixer fix src",
       "php ./vendor/bin/php-cs-fixer fix tests"
     ],
     "test": "php -dxdebug.start_with_request=yes -dxdebug.mode=debug vendor/bin/phpunit tests",
-    "start:helloworld": "@script src/helloworld/main.php",
-    "dev:helloworld": "composer start:helloworld dev 100 && composer dev:helloworld",
-    "start:modules": "@script src/modules/main.php",
-    "dev:modules": "composer start:modules dev 100 && composer dev:modules",
-    "start:web:helloworld": "@script src/web/helloworld/main.php",
-    "dev:web:helloworld": "composer start:web:helloworld dev 100 && composer dev:web:helloworld",
-    "start:web:cats": "@script src/web/cats/main.php",
-    "dev:web:cats": "composer start:web:cats dev 100 && composer dev:web:cats",
-    "start:web:params": "@script src/web/params/main.php",
-    "dev:web:params": "composer start:web:params dev 100 && composer dev:web:params",
-    "start:web:notfound": "@script src/web/notfound/main.php",
-    "dev:web:notfound": "composer start:web:notfound dev 100 && composer dev:web:notfound",
-    "start:web:session": "@script src/web/session/main.php",
-    "dev:web:session": "composer start:web:session dev 100 && composer dev:web:session",
-    "start:web:modules": "@script src/web/modules/main.php",
-    "dev:web:modules": "composer start:web:modules dev 100 && composer dev:web:modules",
-    "start:web:websocket": "@script src/web/websocket/main.php",
-    "dev:web:websocket": "composer start:web:websocket dev 100 && composer dev:web:websocket",
-    "start:web:byterange": "@script src/web/byterange/main.php",
-    "dev:web:byterange": "composer start:web:byterange dev 100 && composer dev:web:byterange",
-    "start:web:customattributes": "@script src/web/customattributes/main.php",
-    "dev:web:customattributes": "composer start:web:customattributes dev 100 && composer dev:web:customattributes",
-    "start:web:filters": "@script src/web/filters/main.php",
-    "dev:web:filters": "composer start:web:filters dev 100 && composer dev:web:filters",
-    "start:mysql": "@script src/mysql/main.php",
-    "dev:mysql": "composer start:mysql dev 100 && composer dev:mysql",
-    "start:raspberrypi": "@script src/raspberrypi/main.php",
-    "dev:raspberrypi": "composer start:raspberrypi dev 100 && composer dev:raspberrypi"
+    "start": "php -dxdebug.start_with_request=yes -dxdebug.mode=debug ./bin/start -v -f",
+    "start:helloworld": "@start src/helloworld/main.php",
+    "start:modules": "@start src/modules/main.php",
+    "start:web:helloworld": "@start src/web/helloworld/main.php",
+    "start:web:cats": "@start src/web/cats/main.php",
+    "start:web:params": "@start src/web/params/main.php",
+    "start:web:notfound": "@start src/web/notfound/main.php",
+    "start:web:session": "@start src/web/session/main.php",
+    "start:web:modules": "@start src/web/modules/main.php",
+    "start:web:websocket": "@start src/web/websocket/main.php",
+    "start:web:byterange": "@start src/web/byterange/main.php",
+    "start:web:customattributes": "@start src/web/customattributes/main.php",
+    "start:web:filters": "@start src/web/filters/main.php",
+    "start:mysql": "@start src/mysql/main.php",
+    "start:raspberrypi": "@start src/raspberrypi/main.php"
+
   },
-  "authors": [
-    {
-      "name": "Razvan Tanase",
-      "email": "tangent.jotey@gmail.com",
-      "homepage": "https://github.com/tncrazvan",
-      "role": "Developer"
-    }
-  ],
+  "authors": [{
+    "name": "Razvan Tanase",
+    "email": "tangent.jotey@gmail.com",
+    "homepage": "https://github.com/tncrazvan",
+    "role": "Developer"
+  }],
   "require": {
     "php": "^8.1",
     "catpaw/core": "^1.3",
@@ -69,7 +54,7 @@
       "Examples\\Modules\\": "src/modules/lib/"
     }
   },
-  "require-dev":{
+  "require-dev": {
     "phpunit/phpunit": "^9.5",
     "friendsofphp/php-cs-fixer": "^3.8"
   },
