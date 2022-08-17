@@ -11,14 +11,12 @@
     "examples"
   ],
   "scripts": {
-    "load": "composer dump-autoload -o",
+    "load": "XDEBUG_MODE='off' composer dump-autoload -o",
     "fix": [
-      "php ./vendor/bin/php-cs-fixer fix src",
-      "php ./vendor/bin/php-cs-fixer fix tests"
+      "XDEBUG_MODE='off' php ./vendor/bin/php-cs-fixer fix src",
+      "XDEBUG_MODE='off' php ./vendor/bin/php-cs-fixer fix tests"
     ],
-    "action:test": "php vendor/bin/phpunit tests",
-    "test": "php -dxdebug.start_with_request=yes -dxdebug.mode=debug vendor/bin/phpunit tests",
-    "start": "php -dxdebug.start_with_request=yes -dxdebug.mode=debug ./bin/start -v -f",
+    "start": "XDEBUG_MODE='debug' php ./bin/start -e",
     "start:helloworld": "@start src/helloworld/main.php",
     "start:mysql": "@start src/mysql/main.php",
     "start:raspberrypi": "@start src/raspberrypi/main.php",
@@ -28,8 +26,8 @@
     "start:web:cats": "@start src/web/cats/main.php",
     "start:web:params": "@start src/web/params/main.php",
     "start:web:notfound": "@start src/web/notfound/main.php",
+    "start:web:openapi": "@start src/web/openapi/main.php",
     "start:web:session": "@start src/web/session/main.php",
-    "start:web:modules": "@start src/web/modules/main.php",
     "start:web:websocket": "@start src/web/websocket/main.php",
     "start:web:byterange": "@start src/web/byterange/main.php",
     "start:web:customattributes": "@start src/web/customattributes/main.php",
@@ -48,13 +46,7 @@
     "catpaw/web": "^1.2",
     "catpaw/mysql": "^1.1",
     "catpaw/raspberrypi": "^1.2",
-    "catpaw/store": "^1.0",
-    "catpaw/openapi": "^1.0"
-  },
-  "autoload": {
-    "psr-4": {
-      "Examples\\Modules\\": "src/modules/lib/"
-    }
+    "catpaw/store": "^1.0"
   },
   "require-dev": {
     "friendsofphp/php-cs-fixer": "^3.8",

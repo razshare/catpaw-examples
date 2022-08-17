@@ -8,6 +8,7 @@ namespace {
     use CatPaw\Attributes\Traits\CoreAttributeDefinition;
     use CatPaw\Web\Attributes\Produces;
     use CatPaw\Web\Attributes\StartWebServer;
+    use CatPaw\Web\RouteHandlerContext;
     use CatPaw\Web\Utilities\Route;
 
     #[Attribute]
@@ -18,12 +19,12 @@ namespace {
             echo "hello world\n";
         }
 
-        public function onParameter(ReflectionParameter $reflection, mixed &$value, mixed $http): Promise {
-            return new LazyPromise(function() use (
-                $reflection,
-                &$value,
-                $http
-            ) {
+        public function onParameter(
+            ReflectionParameter $reflection,
+            mixed &$value,
+            mixed $context
+        ): Promise {
+            return new LazyPromise(function() use (&$value) {
                 $value = "$this->value $value";
             });
         }
@@ -33,9 +34,14 @@ namespace {
     class CustomRouteAttribute implements AttributeInterface {
         use CoreAttributeDefinition;
 
-        public function onRouteHandler(ReflectionFunction $reflection, Closure &$value, mixed $route): Promise {
-            return new LazyPromise(function() use ($reflection, $route) {
-                echo "Detecting a custom attribute on $route->method $route->path!\n";
+        public function onRouteHandler(
+            ReflectionFunction $reflection,
+            Closure &$value,
+            mixed $context
+        ): Promise {
+            /** @var RouteHandlerContext $context */
+            return new LazyPromise(function() use ($reflection, $context) {
+                echo "Detecting a custom attribute on $context->method $context->path!\n";
             });
         }
     }
@@ -44,11 +50,10 @@ namespace {
     function main() {
         Route::get(
             path    : "/",
-            callback: #[Produces("text/html")]
+            callback: 
+            #[Produces("text/html")]
             #[CustomRouteAttribute]
-            function(
-                #[CustomHttpParameterAttribute("hello")] string $name = 'world',
-            ) {
+            function(#[CustomHttpParameterAttribute("hello")] string $name = 'world') {
                 return $name;
             }
         );
