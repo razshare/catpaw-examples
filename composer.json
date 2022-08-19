@@ -48,11 +48,11 @@
   }],
   "require": {
     "php": "^8.1",
-    "catpaw/core": "^1.3",
-    "catpaw/web": "^1.2",
-    "catpaw/mysql": "^1.1",
-    "catpaw/raspberrypi": "^1.2",
-    "catpaw/store": "^1.0"
+    "catpaw/core": "^0.1",
+    "catpaw/web": "^0.1",
+    "catpaw/mysql": "^0.1",
+    "catpaw/raspberrypi": "^0.1",
+    "catpaw/store": "^0.1"
   },
   "require-dev": {
     "friendsofphp/php-cs-fixer": "^3.8",
