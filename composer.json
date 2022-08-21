@@ -1,8 +1,8 @@
 {
-    "name": "catpaw\/starter",
+    "name": "catpaw/starter",
     "type": "library",
     "description": "A php CatPaw starter template",
-    "homepage": "https:\/\/github.com\/tncrazvan\/catpaw-starter",
+    "homepage": "https://github.com/tncrazvan/catpaw-starter",
     "license": "MIT",
     "keywords": [
         "php",
@@ -13,53 +13,53 @@
     "scripts": {
         "load": "XDEBUG_MODE='off' composer dump-autoload -o",
         "fix": [
-            "XDEBUG_MODE='off' php .\/vendor\/bin\/php-cs-fixer fix src",
-            "XDEBUG_MODE='off' php .\/vendor\/bin\/php-cs-fixer fix tests"
+            "XDEBUG_MODE='off' php ./vendor/bin/php-cs-fixer fix src",
+            "XDEBUG_MODE='off' php ./vendor/bin/php-cs-fixer fix tests"
         ],
         "action:test": [
-            "XDEBUG_MODE='off' php vendor\/bin\/phpunit .\/tests"
+            "XDEBUG_MODE='off' php vendor/bin/phpunit ./tests"
         ],
         "test": [
-            "XDEBUG_MODE='debug' php vendor\/bin\/phpunit .\/tests"
+            "XDEBUG_MODE='debug' php vendor/bin/phpunit ./tests"
         ],
-        "start": "XDEBUG_MODE='debug' php .\/bin\/start -e.\/",
-        "start:helloworld": "@start src\/helloworld\/main.php",
-        "start:mysql": "@start src\/mysql\/main.php",
-        "start:raspberrypi": "@start src\/raspberrypi\/main.php",
-        "start:stores:readable": "@start src\/stores\/readable\/main.php",
-        "start:stores:writable": "@start src\/stores\/writable\/main.php",
-        "start:web:helloworld": "@start src\/web\/helloworld\/main.php",
-        "start:web:cats": "@start src\/web\/cats\/main.php",
-        "start:web:params": "@start src\/web\/params\/main.php",
-        "start:web:notfound": "@start src\/web\/notfound\/main.php",
-        "start:web:openapi": "@start src\/web\/openapi\/main.php",
-        "start:web:session": "@start src\/web\/session\/main.php",
-        "start:web:websocket": "@start src\/web\/websocket\/main.php",
-        "start:web:byterange": "@start src\/web\/byterange\/main.php",
-        "start:web:customattributes": "@start src\/web\/customattributes\/main.php",
-        "start:web:filters": "@start src\/web\/filters\/main.php",
-        "build": "XDEBUG_MODE='off' php -dphar.readonly=0 .\/bin\/start -e.\/bin\/build"
+        "start": "XDEBUG_MODE='debug' php ./bin/start -e./",
+        "start:helloworld": "@start src/helloworld/main.php",
+        "start:mysql": "@start src/mysql/main.php",
+        "start:raspberrypi": "@start src/raspberrypi/main.php",
+        "start:stores:readable": "@start src/stores/readable/main.php",
+        "start:stores:writable": "@start src/stores/writable/main.php",
+        "start:web:helloworld": "@start src/web/helloworld/main.php",
+        "start:web:cats": "@start src/web/cats/main.php",
+        "start:web:params": "@start src/web/params/main.php",
+        "start:web:notfound": "@start src/web/notfound/main.php",
+        "start:web:openapi": "@start src/web/openapi/main.php",
+        "start:web:session": "@start src/web/session/main.php",
+        "start:web:websocket": "@start src/web/websocket/main.php",
+        "start:web:byterange": "@start src/web/byterange/main.php",
+        "start:web:customattributes": "@start src/web/customattributes/main.php",
+        "start:web:filters": "@start src/web/filters/main.php",
+        "build": "XDEBUG_MODE='off' php -dphar.readonly=0 ./bin/start -e./bin/build"
     },
     "authors": [
         {
             "name": "Razvan Tanase",
             "email": "tangent.jotey@gmail.com",
-            "homepage": "https:\/\/github.com\/tncrazvan",
+            "homepage": "https://github.com/tncrazvan",
             "role": "Developer"
         }
     ],
     "require": {
         "php": "^8.1",
-        "catpaw\/core": "^0.2",
-        "catpaw\/web": "^0.2",
-        "catpaw\/mysql": "^0.2",
-        "catpaw\/raspberrypi": "^0.2",
-        "catpaw\/store": "^0.2"
+        "catpaw/core": "^0.2",
+        "catpaw/web": "^0.2",
+        "catpaw/mysql": "^0.2",
+        "catpaw/raspberrypi": "^0.2",
+        "catpaw/store": "^0.2"
     },
     "require-dev": {
-        "friendsofphp\/php-cs-fixer": "^3.8",
-        "phpunit\/phpunit": "^9",
-        "vimeo\/psalm": "^4.23"
+        "friendsofphp/php-cs-fixer": "^3.8",
+        "phpunit/phpunit": "^9",
+        "vimeo/psalm": "^4.23"
     },
     "config": {
         "preferred-install": "dist",
