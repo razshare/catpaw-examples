@@ -1,9 +1,6 @@
 <?php
 
 namespace {
-
-    use Amp\LazyPromise;
-    use Amp\Promise;
     use CatPaw\Attributes\Interfaces\AttributeInterface;
     use CatPaw\Attributes\Traits\CoreAttributeDefinition;
     use CatPaw\Web\Attributes\Produces;
@@ -19,14 +16,8 @@ namespace {
             echo "hello world\n";
         }
 
-        public function onParameter(
-            ReflectionParameter $reflection,
-            mixed &$value,
-            mixed $context
-        ): Promise {
-            return new LazyPromise(function() use (&$value) {
-                $value = "$this->value $value";
-            });
+        public function onParameter(ReflectionParameter $reflection, mixed &$value, mixed $context) {
+            $value = "$this->value $value";
         }
     }
 
@@ -34,15 +25,9 @@ namespace {
     class CustomRouteAttribute implements AttributeInterface {
         use CoreAttributeDefinition;
 
-        public function onRouteHandler(
-            ReflectionFunction $reflection,
-            Closure &$value,
-            mixed $context
-        ): Promise {
+        public function onRouteHandler(ReflectionFunction $reflection, Closure &$value, mixed $context) {
             /** @var RouteHandlerContext $context */
-            return new LazyPromise(function() use ($reflection, $context) {
-                echo "Detecting a custom attribute on $context->method $context->path!\n";
-            });
+            echo "Detecting a custom attribute on $context->method $context->path!\n";
         }
     }
 
