@@ -1,7 +1,6 @@
 <?php
 
 namespace {
-
     use CatPaw\Web\Attributes\Param;
     use CatPaw\Web\Attributes\StartWebServer;
     use CatPaw\Web\Utilities\Route;
@@ -9,17 +8,14 @@ namespace {
     #[StartWebServer]
     function main(): void {
         Route::get("/account/{username}", function(
-            #[Param]
-            string $username
+            #[Param] string $username
         ) {
             return "hello $username.";
         });
 
         Route::get("/account/{username}/active/{active}", function(
-            #[Param]
-            string $username,
-            #[Param]
-            bool $active
+            #[Param] string $username,
+            #[Param] bool $active
         ) {
             if ($active) {
                 return "Account $username has been activated.";
@@ -28,10 +24,8 @@ namespace {
         });
 
         Route::get("/account/{username}/{page}", function(
-            #[Param]
-            string $username,
-            #[Param]
-            string $page
+            #[Param] string $username,
+            #[Param] string $page
         ) {
             return "hello $username, you are looking at page $page.";
         });
