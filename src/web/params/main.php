@@ -1,9 +1,8 @@
 <?php
 
 namespace {
-    use CatPaw\Web\Attributes\Param;
-    use CatPaw\Web\Attributes\StartWebServer;
-    use CatPaw\Web\Utilities\Route;
+    use CatPaw\Web\Attributes\{Param, StartWebServer};
+use CatPaw\Web\Utilities\Route;
 
     #[StartWebServer]
     function main(): void {

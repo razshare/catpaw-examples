@@ -3,9 +3,8 @@
 namespace {
     use CatPaw\Attributes\Interfaces\AttributeInterface;
     use CatPaw\Attributes\Traits\CoreAttributeDefinition;
-    use CatPaw\Web\Attributes\Produces;
-    use CatPaw\Web\Attributes\StartWebServer;
-    use CatPaw\Web\RouteHandlerContext;
+    use CatPaw\Web\Attributes\{Produces, StartWebServer};
+use CatPaw\Web\RouteHandlerContext;
     use CatPaw\Web\Utilities\Route;
 
     #[Attribute]

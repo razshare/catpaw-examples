@@ -3,15 +3,12 @@
 namespace {
     use Amp\ByteStream\IteratorStream;
     use Amp\File\File;
-    use function Amp\File\getSize;
-    use function Amp\File\openFile;
+    use function Amp\File\{getSize, openFile};
     use Amp\Http\Server\Response;
     use Amp\Http\Status;
     use Amp\Producer;
-    use CatPaw\Web\Attributes\Header;
-    use CatPaw\Web\Attributes\Produces;
-    use CatPaw\Web\Attributes\StartWebServer;
-    use CatPaw\Web\Exceptions\InvalidByteRangeQueryException;
+use CatPaw\Web\Attributes\{Header, Produces, StartWebServer};
+use CatPaw\Web\Exceptions\InvalidByteRangeQueryException;
     use CatPaw\Web\Interfaces\ByteRangeWriterInterface;
     use CatPaw\Web\Services\ByteRangeService;
     use CatPaw\Web\Utilities\Route;

@@ -1,15 +1,11 @@
 <?php
 
 namespace {
-
     use Amp\Http\Server\Response;
     use Amp\Http\Status;
     use Amp\LazyPromise;
-    use CatPaw\Web\Attributes\IgnoreOpenAPI;
-    use CatPaw\Web\Attributes\Produces;
-    use CatPaw\Web\Attributes\RequestQuery;
-    use CatPaw\Web\Attributes\StartWebServer;
-    use CatPaw\Web\Services\OpenAPIService;
+    use CatPaw\Web\Attributes\{IgnoreOpenAPI, Produces, RequestQuery, StartWebServer};
+use CatPaw\Web\Services\OpenAPIService;
     use CatPaw\Web\Utilities\Route;
 
 

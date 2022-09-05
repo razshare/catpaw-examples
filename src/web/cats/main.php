@@ -1,11 +1,8 @@
 <?php
 
 namespace {
-    use CatPaw\Web\Attributes\Body;
-    use CatPaw\Web\Attributes\Consumes;
-    use CatPaw\Web\Attributes\Produces;
-    use CatPaw\Web\Attributes\StartWebServer;
-    use CatPaw\Web\Utilities\Route;
+    use CatPaw\Web\Attributes\{Body, Consumes, Produces, StartWebServer};
+use CatPaw\Web\Utilities\Route;
 
     #[StartWebServer]
     function main(): void {

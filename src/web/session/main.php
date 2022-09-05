@@ -1,12 +1,8 @@
 <?php
 
 namespace {
-
-
-    use CatPaw\Web\Attributes\Produces;
-    use CatPaw\Web\Attributes\Session;
-    use CatPaw\Web\Attributes\StartWebServer;
-    use CatPaw\Web\Utilities\Route;
+    use CatPaw\Web\Attributes\{Produces, Session, StartWebServer};
+use CatPaw\Web\Utilities\Route;
 
     #[StartWebServer]
     function main() {

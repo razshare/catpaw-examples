@@ -1,7 +1,6 @@
 <?php
 
 namespace {
-
     use CatPaw\MYSQL\Attributes\Repository;
     use CatPaw\MYSQL\Services\DatabaseService;
     use CatPaw\Web\Attributes\StartWebServer;

@@ -3,10 +3,8 @@
 namespace {
     use Amp\Http\Server\Response;
     use Amp\Http\Status;
-    use CatPaw\Web\Attributes\Filter;
-    use CatPaw\Web\Attributes\Param;
-    use CatPaw\Web\Attributes\StartWebServer;
-    use CatPaw\Web\Utilities\Route;
+    use CatPaw\Web\Attributes\{Filter, Param, StartWebServer};
+use CatPaw\Web\Utilities\Route;
 
 
     #[StartWebServer]
