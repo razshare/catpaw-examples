@@ -5,7 +5,7 @@ namespace {
     use Amp\Http\Status;
     use Amp\LazyPromise;
     use CatPaw\Web\Attributes\{IgnoreOpenAPI, Produces, RequestQuery, StartWebServer};
-use CatPaw\Web\Services\OpenAPIService;
+    use CatPaw\Web\Services\OpenAPIService;
     use CatPaw\Web\Utilities\Route;
 
 

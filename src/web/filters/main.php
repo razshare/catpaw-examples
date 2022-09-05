@@ -4,7 +4,7 @@ namespace {
     use Amp\Http\Server\Response;
     use Amp\Http\Status;
     use CatPaw\Web\Attributes\{Filter, Param, StartWebServer};
-use CatPaw\Web\Utilities\Route;
+    use CatPaw\Web\Utilities\Route;
 
 
     #[StartWebServer]

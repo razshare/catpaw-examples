@@ -2,7 +2,7 @@
 
 namespace {
     use Amp\Websocket\Server\Gateway;
-use Amp\Websocket\{Client, Message};
+    use Amp\Websocket\{Client, Message};
     use CatPaw\Web\Attributes\StartWebServer;
     use CatPaw\Web\Interfaces\WebSocketInterface;
     use CatPaw\Web\Utilities\Route;

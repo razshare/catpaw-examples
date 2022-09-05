@@ -2,7 +2,7 @@
 
 namespace {
     use CatPaw\Web\Attributes\{Produces, Session, StartWebServer};
-use CatPaw\Web\Utilities\Route;
+    use CatPaw\Web\Utilities\Route;
 
     #[StartWebServer]
     function main() {

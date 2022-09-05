@@ -7,8 +7,8 @@ namespace {
     use Amp\Http\Server\Response;
     use Amp\Http\Status;
     use Amp\Producer;
-use CatPaw\Web\Attributes\{Header, Produces, StartWebServer};
-use CatPaw\Web\Exceptions\InvalidByteRangeQueryException;
+    use CatPaw\Web\Attributes\{Header, Produces, StartWebServer};
+    use CatPaw\Web\Exceptions\InvalidByteRangeQueryException;
     use CatPaw\Web\Interfaces\ByteRangeWriterInterface;
     use CatPaw\Web\Services\ByteRangeService;
     use CatPaw\Web\Utilities\Route;
