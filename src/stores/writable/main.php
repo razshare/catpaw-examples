@@ -6,12 +6,12 @@ namespace {
 
     function main() {
         $time        = writable(time());
-        $unsubscribe = $time->subscribe(fn($time) => print("the time is $time\n"));
+        $unsubscribe = $time->subscribe(fn ($time) => print("the time is $time\n"));
 
         //unsubscribing mid execution, you should see only 4 prints in the console (instead of 6)
-        delay(3500)->onResolve(fn() => $unsubscribe());
+        delay(3500)->onResolve(fn () => $unsubscribe());
 
-        ticktock(5, fn() => $time->set(time()));
+        ticktock(5, fn () => $time->set(time()));
     }
 
     function ticktock(int $iterations, callable $callback) {

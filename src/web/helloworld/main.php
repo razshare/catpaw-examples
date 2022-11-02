@@ -5,5 +5,5 @@ use CatPaw\Web\Utilities\Route;
 
 #[StartWebServer]
 function main() {
-    Route::get("/", fn() => "hello world");
+    Route::get("/", fn () => "hello world");
 }

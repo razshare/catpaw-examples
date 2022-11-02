@@ -30,7 +30,7 @@ function main(OpenAPIService $oapi): LazyPromise {
             callback: 
                 #[Produces("application/json")]
                 #[IgnoreOpenAPI]    // excluding this endpoint from the resulting open api json
-                fn() => $oapi->getData()
+                fn () => $oapi->getData()
         );
     });
 }
