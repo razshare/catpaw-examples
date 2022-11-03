@@ -1,8 +1,8 @@
 {
-    "name": "catpaw/starter",
-    "type": "library",
+    "name": "catpaw/examples",
+    "type": "project",
     "description": "A php CatPaw starter template",
-    "homepage": "https://github.com/tncrazvan/catpaw-starter",
+    "homepage": "https://github.com/tncrazvan/catpaw-examples",
     "license": "MIT",
     "keywords": [
         "php",
