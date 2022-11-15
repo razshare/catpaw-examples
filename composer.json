@@ -38,7 +38,10 @@
         "start:web:byterange": "@start src/web/byterange/main.php",
         "start:web:customattributes": "@start src/web/customattributes/main.php",
         "start:web:filters": "@start src/web/filters/main.php",
-        "build": "XDEBUG_MODE=off php -dphar.readonly=0 ./vendor/catpaw/core/product.phar --build-config --build"
+        "build": "XDEBUG_MODE=off php -dphar.readonly=0 ./product.phar --build-config --build",
+        "post-autoload-dump": [
+            "[ ! -f product.phar ] && wget https://github.com/tncrazvan/catpaw-dev-tools/releases/download/0.4.76/product.phar || echo \"product.phar found.\n\""
+        ]
     },
     "authors": [
         {
