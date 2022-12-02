@@ -13,16 +13,16 @@
     "scripts": {
         "load": "XDEBUG_MODE=off composer dump-autoload -o",
         "fix": [
-            "XDEBUG_MODE=off php ./vendor/bin/php-cs-fixer fix src",
-            "XDEBUG_MODE=off php ./vendor/bin/php-cs-fixer fix tests"
+            "php -dxdebug.mode=off -dxdebug.start_with_request=no ./vendor/bin/php-cs-fixer fix src",
+            "php -dxdebug.mode=off -dxdebug.start_with_request=no ./vendor/bin/php-cs-fixer fix tests"
         ],
         "action:test": [
-            "XDEBUG_MODE=off php vendor/bin/phpunit ./tests"
+            "php -dxdebug.mode=off -dxdebug.start_with_request=no vendor/bin/phpunit ./tests"
         ],
         "test": [
-            "XDEBUG_MODE=debug php vendor/bin/phpunit ./tests"
+            "php -dxdebug.mode=debug -dxdebug.start_with_request=yes vendor/bin/phpunit ./tests"
         ],
-        "start": "XDEBUG_MODE=debug php ./bin/start -e./",
+        "start": "php -dxdebug.mode=debug -dxdebug.start_with_request=yes ./bin/start -e./",
         "start:helloworld": "@start src/helloworld/main.php",
         "start:mysql": "@start src/mysql/main.php",
         "start:raspberrypi": "@start src/raspberrypi/main.php",
@@ -38,7 +38,7 @@
         "start:web:byterange": "@start src/web/byterange/main.php",
         "start:web:customattributes": "@start src/web/customattributes/main.php",
         "start:web:filters": "@start src/web/filters/main.php",
-        "build": "XDEBUG_MODE=off php -dphar.readonly=0 ./product.phar --build-config --build",
+        "build": "php -dxdebug.mode=off -dxdebug.start_with_request=no -dphar.readonly=0 ./product.phar --build-config --build",
         "post-autoload-dump": [
             "[ ! -f product.phar ] && wget https://github.com/tncrazvan/catpaw-dev-tools/releases/download/0.4.103/product.phar || echo \"product.phar found.\n\""
         ]
