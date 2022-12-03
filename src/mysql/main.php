@@ -17,7 +17,7 @@ function main(DatabaseService $db) {
 
     Route::get(
         path    : "/",
-        callback: fn (#[Repository("account")] $updateByLikeEmail) => $updateByLikeEmail(
+        callback: fn (#[Repository("account")] callable $updateByLikeEmail):mixed => $updateByLikeEmail(
             ["email" => "new@gmail.com"], //payload
             ["email" => "my@gmail.com"], //lookup
         )
