@@ -14,7 +14,7 @@ class CustomHttpParameterAttribute implements AttributeInterface {
         echo "hello world\n";
     }
 
-    public function onParameter(ReflectionParameter $reflection, mixed &$value, mixed $context) {
+    public function onParameterMount(ReflectionParameter $reflection, mixed &$value, mixed $context) {
         $value = "$this->value $value";
     }
 }
@@ -23,7 +23,7 @@ class CustomHttpParameterAttribute implements AttributeInterface {
 class CustomRouteAttribute implements AttributeInterface {
     use CoreAttributeDefinition;
 
-    public function onRouteHandler(ReflectionFunction $reflection, Closure &$value, mixed $context) {
+    public function onRouteMount(ReflectionFunction $reflection, Closure &$value, mixed $context) {
         /** @var RouteHandlerContext $context */
         echo "Detecting a custom attribute on $context->method $context->path!\n";
     }
