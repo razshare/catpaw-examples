@@ -18,10 +18,7 @@ function main(): void {
     Route::post(
         path    : "/cats",
         callback: #[Consumes("application/json")]
-        function(
-            #[Body]
-            array $cat
-        ) use (&$cats) {
+        function(#[Body] array $cat) use (&$cats) {
             $cats[] = $cat;
         }
     );

@@ -2,6 +2,7 @@
 
 use Amp\Websocket\Server\Gateway;
 use Amp\Websocket\{Client, Message};
+use CatPaw\Web\Attributes\Produces;
 use CatPaw\Web\Attributes\StartWebServer;
 use CatPaw\Web\Interfaces\WebSocketInterface;
 use CatPaw\Web\Utilities\Route;
@@ -10,8 +11,31 @@ use Psr\Log\LoggerInterface;
 
 #[StartWebServer]
 function main() {
+    /*
+        
+     */
+
     Route::get(
-        path    : "/",
+        path: "/",
+        callback: #[Produces("text/html")] fn () => <<<HTML
+            Try connecting to the server by running the following script in your browser:
+
+            <pre style="border:1px solid #000"><code>
+            const socket = new WebSocket("ws://localhost:8080/ws");
+
+            socket.addEventListener("open", (event) => {
+                socket.send("Hello server!");
+            });
+
+            socket.addEventListener("message", (event) => {
+                console.log(event.data)
+            });
+            </code></pre>
+            HTML
+    );
+
+    Route::get(
+        path    : "/ws",
         callback: function(
             LoggerInterface $logger
         ) {
@@ -25,6 +49,7 @@ function main() {
                 }
 
                 public function onMessage(Message $message, Gateway $gateway, Client $client) {
+                    yield $client->send("Hello client!");
                     // TODO: Implement onMessage() method.
                     $this->logger->info("Message:".(yield $message->read()));
                 }
