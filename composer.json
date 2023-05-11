@@ -58,7 +58,7 @@
     ],
     "require": {
         "php": "^8.1",
-        "catpaw/core": "^0.5",
+        "catpaw/core": "^0.4",
         "catpaw/web": "^0.4",
         "catpaw/mysql": "^0.4",
         "catpaw/raspberrypi": "^0.4",
