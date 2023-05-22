@@ -1,17 +1,17 @@
 <?php
 
-namespace {
-    use function Amp\delay;
-    use CatPaw\RaspberryPI\Attributes\GPIO;
+use function Amp\delay;
+use CatPaw\RaspberryPI\Services\GPIOService;
 
-    function main(
-        #[GPIO("12", "write")] $set12
-    ) {
-        $led = false;
-        while (true) {
-            yield delay(1000);
-            $led = !$led;
-            yield $set12($led);
-        }
+function main(
+    GPIOService $gpio
+) {
+    $writer12 = $gpio->createWriter("12");
+
+    $led = false;
+    while (true) {
+        yield delay(1000);
+        $led = !$led;
+        yield $writer12->write($led?'1':'0');
     }
 }
