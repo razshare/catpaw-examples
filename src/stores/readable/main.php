@@ -1,6 +1,7 @@
 <?php
 
 namespace {
+    use function Amp\async;
     use function Amp\delay;
     use function CatPaw\Store\readable;
 
@@ -12,7 +13,8 @@ namespace {
     }
 
     function ticktock(int $iterations, callable $callback) {
-        delay(1000)->onResolve(function() use ($iterations, $callback) {
+        async(function() use (&$iterations, $callback) {
+            delay(1);
             $callback();
             $iterations--;
             if ($iterations > 0) {

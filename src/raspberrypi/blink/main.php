@@ -10,8 +10,8 @@ function main(
 
     $led = false;
     while (true) {
-        yield delay(1000);
+        delay(1);
         $led = !$led;
-        yield $writer12->write($led?'1':'0');
+        $writer12->write($led?'1':'0');
     }
 }
