@@ -1,19 +1,20 @@
 <?php
 
-use Amp\ByteStream\IteratorStream;
+use function Amp\async;
 use Amp\File\File;
+
 use function Amp\File\{getSize, openFile};
+use Amp\Http\HttpStatus;
 use Amp\Http\Server\Response;
-use Amp\Http\Status;
-use Amp\Producer;
+
 use CatPaw\Web\Attributes\{Header, Produces, StartWebServer};
+use function CatPaw\Web\duplex;
 use CatPaw\Web\Exceptions\InvalidByteRangeQueryException;
 use CatPaw\Web\Interfaces\ByteRangeWriterInterface;
+use CatPaw\Web\Server;
 use CatPaw\Web\Services\ByteRangeService;
 use CatPaw\Web\Utilities\Route;
 
-
-#[StartWebServer]
 function main() {
     Route::get(
         '/',
@@ -23,7 +24,7 @@ function main() {
             ByteRangeService $service
         ) {
             $filename = "public/videoplayback.mp4";
-            $length   = yield getSize($filename);
+            $length   = getSize($filename);
             try {
                 return $service->response(
                     rangeQuery: $range[0] ?? "",
@@ -37,43 +38,45 @@ function main() {
                         public function __construct(private string $filename) {
                         }
 
-                        public function start() {
-                            $this->file = yield openFile($this->filename, "r");
+                        public function start():void {
+                            $this->file = openFile($this->filename, "r");
                         }
 
 
-                        public function data(callable $emit, int $start, int $length) {
-                            yield $this->file->seek($start);
-                            $data = yield $this->file->read($length);
-                            yield $emit($data);
+                        public function data(callable $emit, int $start, int $length):void {
+                            $this->file->seek($start);
+                            $data = $this->file->read(null, $length);
+                            $emit($data);
                         }
 
 
-                        public function end() {
-                            yield $this->file->close();
+                        public function end():void {
+                            $this->file->close();
                         }
                     }
                 );
             } catch (InvalidByteRangeQueryException) {
+                [$reader, $writer] = duplex();
+                
+                $file = openFile($filename, "r");
+                
+                async(function() use ($file, $writer) {
+                    while ($chunk = $file->read()) {
+                        $writer->write($chunk);
+                    }
+                });
+
                 return new Response(
-                    code          : Status::OK,
-                    headers       : [
+                    status: HttpStatus::OK,
+                    headers: [
                         "Accept-Ranges"  => "bytes",
                         "Content-Type"   => "audio/mp4",
                         "Content-Length" => $length,
                     ],
-                    stringOrStream: new IteratorStream(
-                        new Producer(function($emit) use ($filename) {
-                            /** @var File $file */
-                            $file = yield openFile($filename, "r");
-                            while ($chunk = yield $file->read(65536)) {
-                                yield $emit($chunk);
-                            }
-                            yield $file->close();
-                        })
-                    )
+                    body: $reader,
                 );
             }
         }
     );
+    Server::create()->start();
 }

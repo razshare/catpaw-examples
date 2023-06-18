@@ -1,9 +1,9 @@
 <?php
 
-use CatPaw\Web\Attributes\StartWebServer;
+use CatPaw\Web\Server;
 use CatPaw\Web\Utilities\Route;
 
-#[StartWebServer]
 function main() {
     Route::get("/", fn () => "hello world");
+    Server::create()->create();
 }

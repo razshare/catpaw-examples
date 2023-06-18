@@ -1,9 +1,10 @@
 <?php
 
-use CatPaw\Web\Attributes\{Produces, Session, StartWebServer};
+use CatPaw\Web\Attributes\Produces;
+use CatPaw\Web\Attributes\Session;
+use CatPaw\Web\Server;
 use CatPaw\Web\Utilities\Route;
 
-#[StartWebServer]
 function main() {
     Route::get(
         "/",
@@ -23,4 +24,6 @@ function main() {
                 HTML;
         }
     );
+
+    Server::create()->create();
 }

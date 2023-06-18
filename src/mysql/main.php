@@ -2,10 +2,9 @@
 
 use CatPaw\MYSQL\Attributes\Repository;
 use CatPaw\MYSQL\Services\DatabaseService;
-use CatPaw\Web\Attributes\StartWebServer;
+use CatPaw\Web\Server;
 use CatPaw\Web\Utilities\Route;
 
-#[StartWebServer]
 function main(DatabaseService $db) {
     $db->setPool(
         poolName: "main",
@@ -24,4 +23,6 @@ function main(DatabaseService $db) {
     );
 
     echo Route::describe();
+
+    Server::create()->start();
 }

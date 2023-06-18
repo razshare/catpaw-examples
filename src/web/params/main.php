@@ -1,9 +1,9 @@
 <?php
 
-use CatPaw\Web\Attributes\{Param, StartWebServer};
+use CatPaw\Web\Attributes\Param;
+use CatPaw\Web\Server;
 use CatPaw\Web\Utilities\Route;
 
-#[StartWebServer]
 function main(): void {
     Route::get("/account/{username}", function(
         #[Param] string $username
@@ -27,4 +27,6 @@ function main(): void {
     ) {
         return "hello $username, you are looking at page $page.";
     });
+
+    Server::create()->create();
 }

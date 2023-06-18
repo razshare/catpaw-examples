@@ -2,8 +2,9 @@
 
 use CatPaw\Attributes\Interfaces\AttributeInterface;
 use CatPaw\Attributes\Traits\CoreAttributeDefinition;
-use CatPaw\Web\Attributes\{Produces, StartWebServer};
+use CatPaw\Web\Attributes\Produces;
 use CatPaw\Web\RouteHandlerContext;
+use CatPaw\Web\Server;
 use CatPaw\Web\Utilities\Route;
 
 #[Attribute]
@@ -29,7 +30,6 @@ class CustomRouteAttribute implements AttributeInterface {
     }
 }
 
-#[StartWebServer]
 function main() {
     Route::get(
         path    : "/",
@@ -40,4 +40,5 @@ function main() {
             return $name;
         }
     );
+    Server::create()->create();
 }
