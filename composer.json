@@ -22,7 +22,7 @@
         "test": [
             "php -dxdebug.mode=debug -dxdebug.start_with_request=yes vendor/bin/phpunit ./tests"
         ],
-        "start": "php -dxdebug.mode=off ./bin/start --entry",
+        "start": "php -dxdebug.mode=debug,develop -dxdebug.start_with_request=yes ./bin/start --entry",
         "start:helloworld": "@start ./src/helloworld/main.php",
         "start:mysql": "@start ./src/mysql/main.php",
         "start:raspberrypi": "@start ./src/raspberrypi/main.php",

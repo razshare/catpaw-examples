@@ -11,20 +11,19 @@ namespace {
 
         //unsubscribing mid execution, you should see only 4 prints in the console (instead of 6)
         async(function() use ($unsubscribe) {
-            delay(1);
+            delay(3.5);
             $unsubscribe();
         });
+        
         ticktock(5, fn () => $time->set(time()));
     }
 
     function ticktock(int $iterations, callable $callback) {
-        async(function() use (&$iterations, $callback) {
-            delay(1);
-            $callback();
-            $iterations--;
-            if ($iterations > 0) {
-                ticktock($iterations, $callback);
-            }
-        });
+        delay(1);
+        $callback();
+        $iterations--;
+        if ($iterations > 0) {
+            ticktock($iterations, $callback);
+        }
     }
 }
