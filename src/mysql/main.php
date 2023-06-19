@@ -13,7 +13,8 @@ function main(DatabaseService $db) {
         database: "genericstore"
     );
 
-    Route::get(
+    $server = Server::create();
+    $server->router->get(
         path    : "/",
         callback: fn (#[Repository("account")] callable $updateByLikeEmail):mixed => $updateByLikeEmail(
             ["email" => "new@gmail.com"], //payload
@@ -21,7 +22,7 @@ function main(DatabaseService $db) {
         )
     );
 
-    echo Route::describe();
+    echo $server->describe();
 
     Server::create()->start();
 }

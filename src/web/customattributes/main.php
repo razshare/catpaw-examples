@@ -30,7 +30,8 @@ class CustomRouteAttribute implements AttributeInterface {
 }
 
 function main() {
-    Route::get(
+    $server = Server::create();
+    $server->router->get(
         path    : "/",
         callback: 
         #[Produces("text/html")]
@@ -39,5 +40,5 @@ function main() {
             return $name;
         }
     );
-    Server::create()->create();
+    $server->start();
 }

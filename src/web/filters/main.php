@@ -12,10 +12,11 @@ function main() {
                         ? Filter::PASS 
                         : new Response(HttpStatus::BAD_REQUEST, [], "Bad request :/");
 
-    Route::get(
+    $server = Server::create();
+    $server->router->get(
         path    : "/{value}",
         callback: [ $filter1, fn (#[Param] int $value) => $value ]
     );
 
-    Server::create()->create();
+    $server->start();
 }

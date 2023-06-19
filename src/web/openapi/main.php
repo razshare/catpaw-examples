@@ -12,7 +12,9 @@ function main(OpenAPIService $oapi) {
     $oapi->setTitle("My Title");
     $oapi->setVersion("0.0.1");
     
-    Route::get(
+    $server = Server::create();
+
+    $server->router->get(
         path    : "/plain",
         callback: 
         #[Produces("text/plain")] 
@@ -23,7 +25,7 @@ function main(OpenAPIService $oapi) {
         }
     );
 
-    Route::get(
+    $server->router->get(
         path: "/api",
         callback: 
             #[Produces("application/json")]
@@ -31,5 +33,5 @@ function main(OpenAPIService $oapi) {
             fn () => $oapi->getData()
     );
 
-    Server::create()->create();
+    $server->start();
 }

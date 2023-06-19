@@ -3,11 +3,13 @@
 use function Amp\async;
 use Amp\File\File;
 
-use function Amp\File\{getSize, openFile};
+use function Amp\File\getSize;
+use function Amp\File\openFile;
 use Amp\Http\HttpStatus;
 use Amp\Http\Server\Response;
 
-use CatPaw\Web\Attributes\{Header, Produces, StartWebServer};
+use CatPaw\Web\Attributes\Header;
+use CatPaw\Web\Attributes\Produces;
 use function CatPaw\Web\duplex;
 use CatPaw\Web\Exceptions\InvalidByteRangeQueryException;
 use CatPaw\Web\Interfaces\ByteRangeWriterInterface;
@@ -15,7 +17,8 @@ use CatPaw\Web\Server;
 use CatPaw\Web\Services\ByteRangeService;
 
 function main() {
-    Route::get(
+    $server = Server::create();
+    $server->router->get(
         '/',
         #[Produces("audio/mp4")]
         function(
@@ -77,5 +80,5 @@ function main() {
             }
         }
     );
-    Server::create()->start();
+    $server->start();
 }

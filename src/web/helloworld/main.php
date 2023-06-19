@@ -3,6 +3,7 @@
 use CatPaw\Web\Server;
 
 function main() {
-    Route::get("/", fn () => "hello world");
-    Server::create()->create();
+    $server = Server::create();
+    $server->router->get("/", fn () => "hello world");
+    $server->start();
 }

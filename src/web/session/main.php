@@ -5,7 +5,8 @@ use CatPaw\Web\Attributes\Session;
 use CatPaw\Web\Server;
 
 function main() {
-    Route::get(
+    $server = Server::create();
+    $server->router->get(
         "/",
         #[Produces("text/html")]
         function(
@@ -23,6 +24,5 @@ function main() {
                 HTML;
         }
     );
-
-    Server::create()->create();
+    $server->start();
 }

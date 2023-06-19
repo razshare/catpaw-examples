@@ -5,11 +5,12 @@ use CatPaw\Web\Attributes\Consumes;
 use CatPaw\Web\Attributes\Produces;
 use CatPaw\Web\Server;
 
-
 function main(): void {
     $cats = [];
 
-    Route::get(
+    $server = Server::create();
+
+    $server->router->get(
         path    : "/cats",
         callback: #[Produces("application/json")]
         function() use (&$cats) {
@@ -17,7 +18,7 @@ function main(): void {
         }
     );
 
-    Route::post(
+    $server->router->post(
         path    : "/cats",
         callback: #[Consumes("application/json")]
         function(#[Body] array $cat) use (&$cats) {
@@ -25,5 +26,5 @@ function main(): void {
         }
     );
 
-    Server::create()->create();
+    $server->start();
 }
