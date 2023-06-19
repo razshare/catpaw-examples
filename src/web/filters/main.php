@@ -5,7 +5,6 @@ use Amp\Http\Server\Response;
 use CatPaw\Web\Attributes\Filter;
 use CatPaw\Web\Attributes\Param;
 use CatPaw\Web\Server;
-use CatPaw\Web\Utilities\Route;
 
 function main() {
     $filter1 = fn (#[Param] int $value) 

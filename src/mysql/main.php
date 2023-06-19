@@ -3,7 +3,6 @@
 use CatPaw\MYSQL\Attributes\Repository;
 use CatPaw\MYSQL\Services\DatabaseService;
 use CatPaw\Web\Server;
-use CatPaw\Web\Utilities\Route;
 
 function main(DatabaseService $db) {
     $db->setPool(

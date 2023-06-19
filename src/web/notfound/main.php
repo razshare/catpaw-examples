@@ -1,7 +1,6 @@
 <?php
 
 use CatPaw\Web\Server;
-use CatPaw\Web\Utilities\Route;
 
 function main() {
     Route::get("@404", function() {

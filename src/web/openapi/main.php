@@ -7,7 +7,6 @@ use CatPaw\Web\Attributes\Produces;
 use CatPaw\Web\Attributes\Query;
 use CatPaw\Web\Server;
 use CatPaw\Web\Services\OpenAPIService;
-use CatPaw\Web\Utilities\Route;
 
 function main(OpenAPIService $oapi) {
     $oapi->setTitle("My Title");

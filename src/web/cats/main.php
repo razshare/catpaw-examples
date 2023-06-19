@@ -4,7 +4,6 @@ use CatPaw\Web\Attributes\Body;
 use CatPaw\Web\Attributes\Consumes;
 use CatPaw\Web\Attributes\Produces;
 use CatPaw\Web\Server;
-use CatPaw\Web\Utilities\Route;
 
 
 function main(): void {

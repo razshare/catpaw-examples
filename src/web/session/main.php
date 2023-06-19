@@ -3,7 +3,6 @@
 use CatPaw\Web\Attributes\Produces;
 use CatPaw\Web\Attributes\Session;
 use CatPaw\Web\Server;
-use CatPaw\Web\Utilities\Route;
 
 function main() {
     Route::get(

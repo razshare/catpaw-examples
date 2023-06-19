@@ -5,7 +5,6 @@ use Amp\Websocket\{Client, Message};
 use CatPaw\Web\Attributes\Produces;
 use CatPaw\Web\Interfaces\WebSocketInterface;
 use CatPaw\Web\Server;
-use CatPaw\Web\Utilities\Route;
 use Psr\Log\LoggerInterface;
 
 function main() {

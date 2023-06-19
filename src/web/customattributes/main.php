@@ -5,7 +5,6 @@ use CatPaw\Attributes\Traits\CoreAttributeDefinition;
 use CatPaw\Web\Attributes\Produces;
 use CatPaw\Web\RouteHandlerContext;
 use CatPaw\Web\Server;
-use CatPaw\Web\Utilities\Route;
 
 #[Attribute]
 class CustomHttpParameterAttribute implements AttributeInterface {

@@ -2,7 +2,6 @@
 
 use CatPaw\Web\Attributes\Param;
 use CatPaw\Web\Server;
-use CatPaw\Web\Utilities\Route;
 
 function main(): void {
     Route::get("/account/{username}", function(

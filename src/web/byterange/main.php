@@ -13,7 +13,6 @@ use CatPaw\Web\Exceptions\InvalidByteRangeQueryException;
 use CatPaw\Web\Interfaces\ByteRangeWriterInterface;
 use CatPaw\Web\Server;
 use CatPaw\Web\Services\ByteRangeService;
-use CatPaw\Web\Utilities\Route;
 
 function main() {
     Route::get(
