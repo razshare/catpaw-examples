@@ -23,18 +23,20 @@ function main() {
         #[Produces("audio/mp4")]
         function(
             #[Header("range")] false | array $range,
-            ByteRangeService $service
+            ByteRangeService $service,
+            Response $response,
         ) {
             $filename = "public/videoplayback.mp4";
             $length   = getSize($filename);
             try {
-                return $service->response(
+                $service->response(
+                    response: $response,
                     rangeQuery: $range[0] ?? "",
-                    headers   : [
+                    headers: [
                         "Content-Type"   => "audio/mp4",
                         "Content-Length" => $length,
                     ],
-                    writer    : new class($filename) implements ByteRangeWriterInterface {
+                    interface: new class($filename) implements ByteRangeWriterInterface {
                         private File $file;
 
                         public function __construct(private string $filename) {
@@ -44,13 +46,11 @@ function main() {
                             $this->file = openFile($this->filename, "r");
                         }
 
-
                         public function data(callable $emit, int $start, int $length):void {
                             $this->file->seek($start);
                             $data = $this->file->read(null, $length);
                             $emit($data);
                         }
-
 
                         public function end():void {
                             $this->file->close();
@@ -68,15 +68,13 @@ function main() {
                     }
                 });
 
-                return new Response(
-                    status: HttpStatus::OK,
-                    headers: [
-                        "Accept-Ranges"  => "bytes",
-                        "Content-Type"   => "audio/mp4",
-                        "Content-Length" => $length,
-                    ],
-                    body: $reader,
-                );
+                $response->setStatus(HttpStatus::OK);
+                $response->setHeaders([
+                    "Accept-Ranges"  => "bytes",
+                    "Content-Type"   => "audio/mp4",
+                    "Content-Length" => $length,
+                ]);
+                $response->setBody($reader);
             }
         }
     );
