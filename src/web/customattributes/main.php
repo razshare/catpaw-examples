@@ -1,7 +1,7 @@
 <?php
 
-use CatPaw\Attributes\Interfaces\AttributeInterface;
-use CatPaw\Attributes\Traits\CoreAttributeDefinition;
+use CatPaw\Interfaces\AttributeInterface;
+use CatPaw\Traits\CoreAttributeDefinition;
 use CatPaw\Web\Attributes\Produces;
 use CatPaw\Web\RouteHandlerContext;
 use CatPaw\Web\Server;
