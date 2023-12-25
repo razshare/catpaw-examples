@@ -1,10 +1,17 @@
 <?php
 
 use CatPaw\Web\Attributes\IgnoreOpenAPI;
+
+
 use CatPaw\Web\Services\OpenApiService;
 
 function showSwaggerUI($server) {
-    $server->router->get("/openapi", #[IgnoreOpenAPI] fn (OpenApiService $oa) => $oa->getData());
+    $server->router->get(
+        path: "/openapi",
+        callback:
+        #[IgnoreOpenAPI]
+        fn (OpenApiService $oa) => $oa->getData()
+    );
 
     echo <<<TEXT
 

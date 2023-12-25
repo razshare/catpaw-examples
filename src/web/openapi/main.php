@@ -12,7 +12,7 @@ use CatPaw\Web\Services\OpenApiService;
 #[Produces("text/plain")] 
 function plain(#[Query("name")] ?string $name) {
     if (!$name) {
-        return error(HttpStatus::BAD_REQUEST, "Sorry, query string 'name' is required.");
+        return error("Sorry, query string 'name' is required.", HttpStatus::BAD_REQUEST);
     }
 
     return ok("hello $name.");

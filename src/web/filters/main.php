@@ -12,7 +12,7 @@ use CatPaw\Web\Server;
 function isGreaterThanZero(int $value) {
     return $value > 0 
     ? PASS 
-    : error(HttpStatus::BAD_REQUEST, "Bad request :/");
+    : error("Bad request :/", HttpStatus::BAD_REQUEST);
 }
 
 #[Produces("int", "text/plain", 1)]
