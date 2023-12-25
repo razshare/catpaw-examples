@@ -1,37 +1,36 @@
 <?php
 
 use Amp\Http\HttpStatus;
-use Amp\Http\Server\Response;
-use CatPaw\Web\Attributes\IgnoreOpenAPI;
 use CatPaw\Web\Attributes\Produces;
 use CatPaw\Web\Attributes\Query;
-use CatPaw\Web\Server;
-use CatPaw\Web\Services\OpenAPIService;
+use function CatPaw\Web\error;
+use function CatPaw\Web\ok;
 
-function main(OpenAPIService $oapi) {
-    $oapi->setTitle("My Title");
-    $oapi->setVersion("0.0.1");
+use CatPaw\Web\Server;
+use CatPaw\Web\Services\OpenApiService;
+
+#[Produces("text/plain")] 
+function plain(#[Query("name")] ?string $name) {
+    if (!$name) {
+        return error(HttpStatus::BAD_REQUEST, "Sorry, query string 'name' is required.");
+    }
+
+    return ok("hello $name.");
+}
+
+
+function main(OpenApiService $oa) {
+    $oa->setTitle("My Title");
+    $oa->setVersion("0.0.1");
     
-    $server = Server::create();
+    $server = Server::create( www: './public' );
 
     $server->router->get(
         path    : "/plain",
-        callback: 
-        #[Produces("text/plain")] 
-        function(#[Query("name")] ?string $name) {
-            return !$name
-                ? new Response(HttpStatus::BAD_REQUEST, [], "Sorry, query string 'name' is required.")
-                : new Response(HttpStatus::OK, [], "hello $name.");
-        }
+        callback: plain(...)
     );
 
-    $server->router->get(
-        path: "/api",
-        callback: 
-            #[Produces("application/json")]
-            #[IgnoreOpenAPI]    // excluding this endpoint from the resulting open api json
-            fn () => $oapi->getData()
-    );
+    showSwaggerUI($server);
 
     $server->start();
 }

@@ -1,76 +1,76 @@
 {
-    "name": "catpaw/examples",
-    "type": "project",
-    "description": "A php CatPaw starter template",
-    "homepage": "https://github.com/tncrazvan/catpaw-examples",
-    "license": "MIT",
-    "keywords": [
-        "php",
-        "cli",
-        "catpaw",
-        "examples"
+  "name": "catpaw/starter",
+  "type": "project",
+  "description": "A php CatPaw starter template",
+  "homepage": "https://github.com/tncrazvan/catpaw-starter",
+  "license": "MIT",
+  "scripts": {
+    "load": "composer dump-autoload -o",
+    "prod:fix": [
+      "php -dxdebug.mode=off ./vendor/bin/php-cs-fixer fix src",
+      "php -dxdebug.mode=off ./vendor/bin/php-cs-fixer fix tests"
     ],
-    "scripts": {
-        "load": "composer dump-autoload -o",
-        "fix": [
-            "php -dxdebug.mode=off -dxdebug.start_with_request=no ./vendor/bin/php-cs-fixer fix src",
-            "php -dxdebug.mode=off -dxdebug.start_with_request=no ./vendor/bin/php-cs-fixer fix tests"
-        ],
-        "test": [
-            "php -dxdebug.mode=off -dxdebug.start_with_request=no vendor/bin/phpunit ./tests"
-        ],
-        "test:debug": [
-            "php -dxdebug.mode=debug -dxdebug.start_with_request=yes vendor/bin/phpunit ./tests"
-        ],
-        "start": "php -dxdebug.mode=debug,develop -dxdebug.start_with_request=yes ./bin/start --entry",
-        "start:helloworld": "@start ./src/helloworld/main.php",
-        "start:mysql": "@start ./src/mysql/main.php",
-        "start:raspberrypi": "@start ./src/raspberrypi/main.php",
-        "start:stores:readable": "@start ./src/stores/readable/main.php",
-        "start:stores:writable": "@start ./src/stores/writable/main.php",
-        "start:web:helloworld": "@start ./src/web/helloworld/main.php",
-        "start:web:cats": "@start ./src/web/cats/main.php",
-        "start:web:params": "@start ./src/web/params/main.php",
-        "start:web:notfound": "@start ./src/web/notfound/main.php",
-        "start:web:openapi": "@start ./src/web/openapi/main.php",
-        "start:web:session": "@start ./src/web/session/main.php",
-        "start:web:websocket": "@start ./src/web/websocket/main.php",
-        "start:web:byterange": "@start ./src/web/byterange/main.php",
-        "start:web:customattributes": "@start ./src/web/customattributes/main.php",
-        "start:web:filters": "@start ./src/web/filters/main.php",
-        "build": "php -dxdebug.mode=off -dxdebug.start_with_request=no -dphar.readonly=0 ./product.phar --build-config --build",
-        "edit:extensions": "@download:product && php product.phar --extensions",
-        "download:product": "[ ! -f product.phar ] && wget https://github.com/tncrazvan/catpaw-dev-tools/releases/latest/download/product.phar || echo \"product.phar found.\n\"",
-        "post-autoload-dump": [
-            "@download:product"
-        ],
-        "post-create-project-cmd": [
-            "@download:product"
-        ]
-    },
-    "authors": [
-        {
-            "name": "Razvan Tanase",
-            "email": "tangent.jotey@gmail.com",
-            "homepage": "https://github.com/tncrazvan",
-            "role": "Developer"
-        }
+    "prod:start:helloworld": "php ./bin/start --entry='./src/helloworld/main.php'",
+    "prod:start:raspberrypi": "php ./bin/start --entry='./src/raspberrypi/main.php'",
+    "prod:start:readable": "php ./bin/start --entry='./src/readable/main.php'",
+    "prod:start:writable": "php ./bin/start --entry='./src/writable/main.php'",
+    "prod:start:web:byterange": "php ./bin/start --entry='./src/web/byterange/main.php'",
+    "prod:start:web:cats": "php ./bin/start --entry='./src/web/cats/main.php'",
+    "prod:start:web:customattributes": "php ./bin/start --entry='./src/web/customattributes/main.php'",
+    "prod:start:web:filters": "php ./bin/start --entry='./src/web/filters/main.php'",
+    "prod:start:web:helloworld": "php ./bin/start --entry='./src/web/helloworld/main.php'",
+    "prod:start:web:notfound": "php ./bin/start --entry='./src/web/notfound/main.php'",
+    "prod:start:web:openapi": "php ./bin/start --entry='./src/web/openapi/main.php'",
+    "prod:start:web:params": "php ./bin/start --entry='./src/web/params/main.php'",
+    "prod:start:web:session": "php ./bin/start --entry='./src/web/session/main.php'",
+    "download:build": "[ ! -f build.phar ] && wget https://github.com/tncrazvan/catpaw-build/releases/latest/download/build.phar || echo ''",
+    "download:psalm": "[ ! -f psalm.phar ] && wget https://github.com/vimeo/psalm/releases/latest/download/psalm.phar || echo ''",
+    "post-autoload-dump": [
+      "@download:psalm",
+      "@download:build"
     ],
-    "minimum-stability": "dev",
-    "require": {
-        "php": "^8.2",
-        "catpaw/core": "^0.7",
-        "catpaw/web": "^0.7",
-        "catpaw/mysql": "^0.7",
-        "catpaw/raspberrypi": "^0.7",
-        "catpaw/store": "^0.7"
-    },
-    "require-dev": {
-        "friendsofphp/php-cs-fixer": "^3.8",
-        "phpunit/phpunit": "^9"
-    },
-    "config": {
-        "preferred-install": "dist",
-        "process-timeout": 0
+    "post-create-project-cmd": [
+      "@download:psalm",
+      "@download:build"
+    ]
+  },
+  "authors": [
+    {
+      "name": "Razvan Tanase",
+      "email": "tangent.jotey@gmail.com",
+      "homepage": "https://github.com/tncrazvan",
+      "role": "Developer"
     }
+  ],
+  "autoload": {
+    "psr-4": {
+      "App\\": "src/lib/"
+    },
+    "files": [
+      "src/functions.php"
+    ]
+  },
+  "minimum-stability": "stable",
+  "require": {
+    "php": "^8.2",
+    "catpaw/core": "^1.0",
+    "amphp/amp": "^3.0",
+    "amphp/file": "^3.0",
+    "catpaw/web": "^1.0",
+    "catpaw/raspberrypi": "^1.0",
+    "catpaw/store": "^1.0"
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Tests\\": "tests/"
+    }
+  },
+  "require-dev": {
+    "friendsofphp/php-cs-fixer": "^3.8",
+    "phpunit/phpunit": "^9"
+  },
+  "config": {
+    "preferred-install": "dist",
+    "process-timeout": 0
+  }
 }

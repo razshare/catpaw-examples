@@ -13,7 +13,7 @@ Install `^php8.2` and the following extenstions:
 
 Clone the repository with 
 ```sh
-git clone git@github.com:tncrazvan/catpaw-examples.git
+git clone git@github.com:tncrazvan/catpaw-starter.git
 ```
 
 Install dependencies with
@@ -22,7 +22,7 @@ Install dependencies with
 composer update
 ```
 
-This will also download [product.phar](https://github.com/tncrazvan/catpaw-dev-tools/releases).
+This will also download [build.phar](https://github.com/tncrazvan/catpaw-build/releases).
 
 
 ## Writing the changes

@@ -1,44 +1,59 @@
 <?php
 
-use CatPaw\Interfaces\AttributeInterface;
-use CatPaw\Traits\CoreAttributeDefinition;
+use Amp\Http\Server\Request;
 use CatPaw\Web\Attributes\Produces;
-use CatPaw\Web\RouteHandlerContext;
+use CatPaw\Web\Interfaces\RouteAttributeInterface;
 use CatPaw\Web\Server;
+use CatPaw\Web\Traits\CoreRouteAttributeDefinition;
 
 #[Attribute]
-class CustomHttpParameterAttribute implements AttributeInterface {
-    use CoreAttributeDefinition;
+class SecretBlazingCat implements RouteAttributeInterface {
+    use CoreRouteAttributeDefinition;
 
-    public function __construct(private string $value) {
-        echo "hello world\n";
-    }
+    public function onResult(Request $request, mixed &$result): void {
+        if ("Here's a red cat" === $result) {
+            $result = <<<TEXT
+                I was gonna say `Here's a red cat`, but nevermind that, here's a BLAZING red cat!!
 
-    public function onParameterMount(ReflectionParameter $reflection, mixed &$value, mixed $context) {
-        $value = "$this->value $value";
+                                .,  ,.                       ,.
+                                ,((')/))).                    (()
+                            '(.(()( )")),                ((()) 
+                            "___/,  "/)))/).'               .))
+                            '.-.   "(()(()()/^             ( (
+                >> ROAR << ' _)   /)()())(()'______.---._.' )
+                            '.   _  (()(()))..            ,'
+                                (() \  ()) ())(             )
+                                    ((                .     /_
+                                    /       \,     .-(     (_ )
+                                .'   \/    )___.'   \      ) 
+                                /    \-    /        _/'.-'  / 
+                                (,(,.'     ))       (_ /    /
+                                    (,(,(,_)mrf      (,(,(,_)
+                TEXT;
+        }
     }
 }
 
-#[Attribute]
-class CustomRouteAttribute implements AttributeInterface {
-    use CoreAttributeDefinition;
+#[SecretBlazingCat]
+#[Produces("string", "text/plain")]
+function showcaseRandomCat() {
+    static $cats = [
+        "a red and white cat",
+        "a white cat",
+        "a red cat",
+        "a black cat",
+        "a white and black cat",
+    ];
 
-    public function onRouteMount(ReflectionFunction $reflection, Closure &$value, mixed $context) {
-        /** @var RouteHandlerContext $context */
-        echo "Detecting a custom attribute on $context->method $context->path!\n";
-    }
+    return "Here's ".$cats[array_rand($cats)];
 }
 
 function main() {
-    $server = Server::create();
+    $server = Server::create(www:'./public');
     $server->router->get(
-        path    : "/",
-        callback: 
-        #[Produces("text/html")]
-        #[CustomRouteAttribute]
-        function(#[CustomHttpParameterAttribute("hello")] string $name = 'world') {
-            return $name;
-        }
+        path    : "/showcase-random-cat",
+        callback: showcaseRandomCat(...)
     );
+    showSwaggerUI($server);
     $server->start();
 }
