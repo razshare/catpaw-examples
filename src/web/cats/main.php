@@ -1,31 +1,40 @@
 <?php
 
+use const CatPaw\Web\APPLICATION_JSON;
 use CatPaw\Web\Attributes\Body;
 use CatPaw\Web\Attributes\Consumes;
-use CatPaw\Web\Attributes\Produces;
+use CatPaw\Web\Attributes\ProducesPage;
 use CatPaw\Web\Server;
 
-function main() {
-    /** @var array<string> */
-    $cats   = [ "cat1" ];
-    $server = Server::create( www:'./public' );
+class Cat {
+    public function __construct(
+        public string $name,
+    ) {
+    }
+}
+
+function main(): void {
+    $cats = [];
+
+    $server = Server::create(www:"./public");
+
     $server->router->get(
-        path    : '/cats',
-        callback:
-        #[Produces('array')]
+        path    : "/cats",
+        callback: #[ProducesPage(Cat::class, APPLICATION_JSON, new Cat( name: 'Kitty' ))]
         function() use (&$cats) {
             return $cats;
         }
     );
-
+    
     $server->router->post(
-        path    : '/cats',
+        path    : "/cats",
         callback:
-        #[Consumes('string')]
-        function(#[Body] array $cat) use (&$cats) {
+        #[Consumes(Cat::class, APPLICATION_JSON, new Cat( name: 'Kitty' ))]
+        function(#[Body] $cat) use (&$cats) {
             $cats[] = $cat;
         }
     );
+
     showSwaggerUI($server);
     $server->start();
 }

@@ -1,8 +1,5 @@
 <?php
-
 use CatPaw\Web\Attributes\IgnoreOpenAPI;
-
-
 use CatPaw\Web\Services\OpenApiService;
 
 function showSwaggerUI($server) {

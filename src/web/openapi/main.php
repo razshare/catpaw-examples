@@ -9,7 +9,9 @@ use function CatPaw\Web\ok;
 use CatPaw\Web\Server;
 use CatPaw\Web\Services\OpenApiService;
 
-#[Produces("text/plain")] 
+use const CatPaw\Web\TEXT_PLAIN;
+
+#[Produces('string', TEXT_PLAIN)] 
 function plain(#[Query("name")] ?string $name) {
     if (!$name) {
         return error("Sorry, query string 'name' is required.", HttpStatus::BAD_REQUEST);
@@ -20,13 +22,13 @@ function plain(#[Query("name")] ?string $name) {
 
 
 function main(OpenApiService $oa) {
-    $oa->setTitle("My Title");
-    $oa->setVersion("0.0.1");
+    $oa->setTitle('My Title');
+    $oa->setVersion('0.0.1');
     
     $server = Server::create( www: './public' );
 
     $server->router->get(
-        path    : "/plain",
+        path    : '/plain',
         callback: plain(...)
     );
 

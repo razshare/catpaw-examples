@@ -4,6 +4,8 @@ use Amp\Http\Server\Request;
 use CatPaw\Web\Attributes\Produces;
 use CatPaw\Web\Interfaces\RouteAttributeInterface;
 use CatPaw\Web\Server;
+use const CatPaw\Web\TEXT_PLAIN;
+
 use CatPaw\Web\Traits\CoreRouteAttributeDefinition;
 
 #[Attribute]
@@ -35,14 +37,14 @@ class SecretBlazingCat implements RouteAttributeInterface {
 }
 
 #[SecretBlazingCat]
-#[Produces("string", "text/plain")]
+#[Produces('string', TEXT_PLAIN)]
 function showcaseRandomCat() {
     static $cats = [
-        "a red and white cat",
-        "a white cat",
-        "a red cat",
-        "a black cat",
-        "a white and black cat",
+        'a red and white cat',
+        'a white cat',
+        'a red cat',
+        'a black cat',
+        'a white and black cat',
     ];
 
     return "Here's ".$cats[array_rand($cats)];
@@ -51,7 +53,7 @@ function showcaseRandomCat() {
 function main() {
     $server = Server::create(www:'./public');
     $server->router->get(
-        path    : "/showcase-random-cat",
+        path    : '/showcase-random-cat',
         callback: showcaseRandomCat(...)
     );
     showSwaggerUI($server);

@@ -4,27 +4,27 @@
 use function Amp\File\getSize;
 use function Amp\File\openFile;
 use Amp\Http\HttpStatus;
+
 use Amp\Http\Server\Request;
 use Amp\Http\Server\Response;
-
 use CatPaw\Web\Attributes\Produces;
-
 use CatPaw\Web\Exceptions\InvalidByteRangeQueryException;
+
 use CatPaw\Web\Mime;
 use CatPaw\Web\Server;
 use CatPaw\Web\Services\ByteRangeService;
 
-#[Produces("audio/mp4")]
+#[Produces('string', 'audio/mp4')]
 function serve(
-    Response $response,
     Request $request,
+    Response $response,
     ByteRangeService $range,
-    Server $server
+    Server $server,
 ) {
     $fileName = "{$server->www}/videoplayback.mp4";
     try {
         $byteRangeResponse = $range->file(
-            rangeQuery: $request->getHeader("range") ?? '',
+            rangeQuery: $request->getHeader('range') ?? '',
             fileName: $fileName,
         );
         $response->setStatus($byteRangeResponse->getStatus());
@@ -42,8 +42,11 @@ function serve(
     }
 }
 
-function main() {
-    $server = Server::create(www: "./public");
-    $server->router->get(path: '/', callback: serve(...));
+function main(ByteRangeService $range) {
+    $server = Server::create(www: './public');
+    $server->setFileServer(
+        fn (Request $request, Response $response)
+            => serve($request, $response, $range, $server)
+    );
     $server->start();
 }

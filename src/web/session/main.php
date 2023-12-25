@@ -4,8 +4,9 @@ use CatPaw\Web\Attributes\Produces;
 use CatPaw\Web\Attributes\Session;
 use CatPaw\Web\Server;
 
+use const CatPaw\Web\TEXT_HTML;
 
-#[Produces("string", "text/html")]
+#[Produces('string', TEXT_HTML)]
 function serve(#[Session] array &$session) {
     if (!isset($session['created'])) {
         $session['created'] = time();
