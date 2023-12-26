@@ -67,7 +67,7 @@ class AccountService {
 #[ProducesPage(
     className: Account::class,
     contentType: APPLICATION_JSON,
-    example: new Account( username: "b5e6a138-0d9e-42d4-aa2c-db33a4fcec37", name: "user1" )
+    example: new Account( username: 'b5e6a138-0d9e-42d4-aa2c-db33a4fcec37', name: 'user1' )
 )]
 function findAccountsByName(AccountService $accountService, Page $page, string $name) {
     $items = $accountService->findByName($page, $name);
@@ -86,7 +86,7 @@ function toggleAccountByUsername(string $username, bool $active) {
 #[ProducesPage(
     className: Account::class,
     contentType: APPLICATION_JSON,
-    example: new Account( username: "b5e6a138-0d9e-42d4-aa2c-db33a4fcec37", name: "user1" )
+    example: new Account( username: 'b5e6a138-0d9e-42d4-aa2c-db33a4fcec37', name: 'user1' )
 )]
 #[Summary('Find all accounts.')]
 function findAll(AccountService $accountService, Page $page) {
