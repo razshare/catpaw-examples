@@ -16,7 +16,7 @@ class Cat {
 function main(): void {
     $cats = [];
 
-    $server = Server::create(www:"./public");
+    $server = Server::create( www:"./public" );
 
     $server->router->get(
         path    : "/cats",
