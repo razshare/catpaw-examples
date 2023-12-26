@@ -16,10 +16,10 @@ class Cat {
 function main(): void {
     $cats = [];
 
-    $server = Server::create( www:"./public" );
+    $server = Server::create( www:'./public' );
 
     $server->router->get(
-        path    : "/cats",
+        path    : '/cats',
         callback: #[ProducesPage(Cat::class, APPLICATION_JSON, new Cat( name: 'Kitty' ))]
         function() use (&$cats) {
             return $cats;
@@ -27,7 +27,7 @@ function main(): void {
     );
     
     $server->router->post(
-        path    : "/cats",
+        path    : '/cats',
         callback:
         #[Consumes(Cat::class, APPLICATION_JSON, new Cat( name: 'Kitty' ))]
         function(#[Body] $cat) use (&$cats) {
