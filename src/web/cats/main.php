@@ -20,7 +20,8 @@ function main(): void {
 
     $server->router->get(
         path    : '/cats',
-        callback: #[ProducesPage(Cat::class, APPLICATION_JSON, new Cat( name: 'Kitty' ))]
+        callback:
+        #[ProducesPage(Cat::class, APPLICATION_JSON, new Cat( name: 'Kitty' ))]
         function() use (&$cats) {
             return $cats;
         }
