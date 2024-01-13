@@ -1,25 +1,29 @@
 <?php
 
 use Amp\Http\Server\Request;
+use function CatPaw\Core\ok;
+
+use function CatPaw\Core\stop;
+use CatPaw\Core\Traits\CoreAttributeDefinition;
+
+use CatPaw\Core\Unsafe;
 use CatPaw\Web\Attributes\Produces;
-use CatPaw\Web\Interfaces\RouteAttributeInterface;
+use CatPaw\Web\Interfaces\OnResult;
 use CatPaw\Web\Server;
 use const CatPaw\Web\TEXT_PLAIN;
 
-use CatPaw\Web\Traits\CoreRouteAttributeDefinition;
-
 #[Attribute]
-class SecretBlazingCat implements RouteAttributeInterface {
-    use CoreRouteAttributeDefinition;
+class SecretBlazingCat implements OnResult {
+    use CoreAttributeDefinition;
 
-    public function onResult(Request $request, mixed &$result): void {
+    public function onResult(Request $request, mixed &$result): Unsafe {
         if ("Here's a red cat" === $result) {
             $result = <<<TEXT
-                I was gonna say `Here's a red cat`, but nevermind that, here's a BLAZING red cat!!
+                I was gonna say `Here's a red cat`, but never mind that, here's a BLAZING red cat!!
 
                                 .,  ,.                       ,.
                                 ,((')/))).                    (()
-                            '(.(()( )")),                ((()) 
+                            '(.(()( )")),                ((())
                             "___/,  "/)))/).'               .))
                             '.-.   "(()(()()/^             ( (
                 >> ROAR << ' _)   /)()())(()'______.---._.' )
@@ -27,12 +31,13 @@ class SecretBlazingCat implements RouteAttributeInterface {
                                 (() \  ()) ())(             )
                                     ((                .     /_
                                     /       \,     .-(     (_ )
-                                .'   \/    )___.'   \      ) 
-                                /    \-    /        _/'.-'  / 
+                                .'   \/    )___.'   \      )
+                                /    \-    /        _/'.-'  /
                                 (,(,.'     ))       (_ /    /
                                     (,(,(,_)mrf      (,(,(,_)
                 TEXT;
         }
+        return ok();
     }
 }
 
@@ -51,11 +56,8 @@ function showcaseRandomCat() {
 }
 
 function main() {
-    $server = Server::create(www:'./public');
-    $server->router->get(
-        path    : '/showcase-random-cat',
-        callback: showcaseRandomCat(...)
-    );
-    showSwaggerUI($server);
-    $server->start();
+    $server = Server::create(www:'./public')->try($error)                             or stop($error);
+    $server->router->get('/showcase-random-cat', showcaseRandomCat(...))->try($error) or stop($error);
+    showSwaggerUI($server)->try($error)                                               or stop($error);
+    $server->start()->await()->try($error)                                            or stop($error);
 }

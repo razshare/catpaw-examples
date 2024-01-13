@@ -17,22 +17,21 @@
     "prod:start:web:byterange": "php ./bin/start --entry='./src/web/byterange/main.php'",
     "prod:start:web:cats": "php ./bin/start --entry='./src/web/cats/main.php'",
     "prod:start:web:customattributes": "php ./bin/start --entry='./src/web/customattributes/main.php'",
-    "prod:start:web:filters": "php ./bin/start --entry='./src/web/filters/main.php'",
-    "dev:start:web:filters": "php -dxdebug.mode=debug -dxdebug.start_with_request=yes ./bin/start --entry='./src/web/filters/main.php'",
     "prod:start:web:helloworld": "php ./bin/start --entry='./src/web/helloworld/main.php'",
     "prod:start:web:notfound": "php ./bin/start --entry='./src/web/notfound/main.php'",
     "prod:start:web:openapi": "php ./bin/start --entry='./src/web/openapi/main.php'",
-    "prod:start:web:params": "php ./bin/start --entry='./src/web/params/main.php'",
+    "prod:start:web:params": "php  -dxdebug.mode=debug -dxdebug.start_with_request=yes ./bin/start --entry='./src/web/params/main.php'",
     "prod:start:web:session": "php ./bin/start --entry='./src/web/session/main.php'",
-    "download:build": "[ ! -f build.phar ] && wget https://github.com/tncrazvan/catpaw-build/releases/latest/download/build.phar || echo ''",
+    "dev:precommit": "pre-commit install && pre-commit autoupdate",
+    "download:catpaw": "[ ! -f catpaw.phar ] && wget https://github.com/tncrazvan/catpaw/releases/latest/download/catpaw.phar || echo ''",
     "download:psalm": "[ ! -f psalm.phar ] && wget https://github.com/vimeo/psalm/releases/latest/download/psalm.phar || echo ''",
     "post-autoload-dump": [
       "@download:psalm",
-      "@download:build"
+      "@download:catpaw"
     ],
     "post-create-project-cmd": [
       "@download:psalm",
-      "@download:build"
+      "@download:catpaw"
     ]
   },
   "authors": [
@@ -54,12 +53,9 @@
   "minimum-stability": "stable",
   "require": {
     "php": "^8.2",
-    "catpaw/core": "^1.0",
+    "catpaw/catpaw": "^2.0",
     "amphp/amp": "^3.0",
-    "amphp/file": "^3.0",
-    "catpaw/web": "^1.0",
-    "catpaw/raspberrypi": "^1.0",
-    "catpaw/store": "^1.0"
+    "amphp/file": "^3.0"
   },
   "autoload-dev": {
     "psr-4": {

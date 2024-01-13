@@ -1,7 +1,9 @@
 <?php
 
+use function CatPaw\Core\stop;
 use CatPaw\Web\Attributes\Produces;
 use CatPaw\Web\Attributes\Session;
+
 use CatPaw\Web\Server;
 
 use const CatPaw\Web\TEXT_HTML;
@@ -20,7 +22,7 @@ function serve(#[Session] array &$session) {
 }
 
 function main() {
-    $server = Server::create();
-    $server->router->get("/", serve(...));
-    $server->start();
+    $server = Server::create()->try($error)            or stop($error);
+    $server->router->get("/", serve(...))->try($error) or stop($error);
+    $server->start()->await()->try($error)             or stop($error);
 }
