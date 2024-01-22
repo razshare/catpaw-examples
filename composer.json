@@ -20,7 +20,7 @@
     "prod:start:web:helloworld": "php ./bin/start --entry='./src/web/helloworld/main.php'",
     "prod:start:web:notfound": "php ./bin/start --entry='./src/web/notfound/main.php'",
     "prod:start:web:openapi": "php ./bin/start --entry='./src/web/openapi/main.php'",
-    "prod:start:web:params": "php  -dxdebug.mode=debug -dxdebug.start_with_request=yes ./bin/start --entry='./src/web/params/main.php'",
+    "prod:start:web:params": "php ./bin/start --entry='./src/web/params/main.php'",
     "prod:start:web:session": "php ./bin/start --entry='./src/web/session/main.php'",
     "dev:precommit": "pre-commit install && pre-commit autoupdate",
     "dev:tips": "[ ! -f catpaw.phar ] && echo '' || php catpaw.phar --tips",

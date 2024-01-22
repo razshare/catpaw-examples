@@ -1,22 +1,17 @@
 <?php
-
 use CatPaw\Core\Attributes\Entry;
 use CatPaw\Core\Attributes\Service;
-
 use function CatPaw\Core\stop;
 use function CatPaw\Core\uuid;
-
-use const CatPaw\Web\APPLICATION_JSON;
+use const CatPaw\Web\__APPLICATION_JSON;
+use const CatPaw\Web\__OK;
+use const CatPaw\Web\__TEXT_PLAIN;
 use CatPaw\Web\Attributes\Produces;
 use CatPaw\Web\Attributes\ProducesPage;
-
 use CatPaw\Web\Attributes\Summary;
 use CatPaw\Web\Page;
-
 use CatPaw\Web\Server;
-
 use function CatPaw\Web\success;
-use const CatPaw\Web\TEXT_PLAIN;
 
 class Account {
     function __construct(
@@ -68,32 +63,42 @@ class AccountService {
  */
 #[Summary('Find accounts by their name.')]
 #[ProducesPage(
+    status: __OK,
+    contentType: __APPLICATION_JSON,
+    description: 'on success',
     className: Account::class,
-    contentType: APPLICATION_JSON,
     example: new Account(username:'b5e6a138-0d9e-42d4-aa2c-db33a4fcec37', name:'user1')
 )]
 function findAccountsByName(AccountService $accountService, Page $page, string $name) {
     $items = $accountService->findByName($page, $name);
-    return success($items)->page($page);
+    return success($items)->as(__APPLICATION_JSON)->page($page);
 }
 
-#[Produces('string', TEXT_PLAIN, "Account user1 has been activated.")]
 #[Summary('Toggle an account, activating or deactivating it.')]
+#[Produces(
+    status: __OK,
+    contentType: __TEXT_PLAIN,
+    description: 'on success',
+    className: 'string',
+    example: 'Account user1 has been activated.'
+)]
 function toggleAccountByUsername(string $username, bool $active) {
     if ($active) {
-        return "Account $username has been activated.";
+        return success("Account $username has been activated.");
     }
-    return "Account $username has been deactivated.";
+    return success("Account $username has been deactivated.");
 }
 
+#[Summary('Find all accounts.')]
 #[ProducesPage(
+    status: __OK,
+    contentType: __APPLICATION_JSON,
+    description: 'on success',
     className: Account::class,
-    contentType: APPLICATION_JSON,
     example: new Account(username:'b5e6a138-0d9e-42d4-aa2c-db33a4fcec37', name:'user1')
 )]
-#[Summary('Find all accounts.')]
 function findAll(AccountService $accountService, Page $page) {
-    return success($accountService->findAll($page))->page($page);
+    return success($accountService->findAll($page))->as(__APPLICATION_JSON)->page($page);
 }
 
 function main(): void {

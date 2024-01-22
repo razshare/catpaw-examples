@@ -1,14 +1,18 @@
 <?php
 
 use function CatPaw\Core\stop;
+
+use const CatPaw\Web\__OK;
+use const CatPaw\Web\__TEXT_HTML;
+
 use CatPaw\Web\Attributes\Produces;
 use CatPaw\Web\Attributes\Session;
 
 use CatPaw\Web\Server;
 
-use const CatPaw\Web\TEXT_HTML;
+use function CatPaw\Web\success;
 
-#[Produces('string', TEXT_HTML)]
+#[Produces(__OK, __TEXT_HTML, 'on success', 'string')]
 function serve(#[Session] array &$session) {
     if (!isset($session['created'])) {
         $session['created'] = time();
@@ -16,9 +20,11 @@ function serve(#[Session] array &$session) {
 
     $contents = print_r($session, true);
 
-    return <<<HTML
+    return success(
+        <<<HTML
             this is my session <br /><pre>$contents</pre>
-        HTML;
+            HTML
+    );
 }
 
 function main() {

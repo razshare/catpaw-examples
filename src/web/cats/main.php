@@ -1,11 +1,10 @@
 <?php
-
 use function CatPaw\Core\stop;
-use const CatPaw\Web\APPLICATION_JSON;
+use const CatPaw\Web\__APPLICATION_JSON;
+use const CatPaw\Web\__OK;
 use CatPaw\Web\Attributes\Body;
 use CatPaw\Web\Attributes\Consumes;
 use CatPaw\Web\Attributes\ProducesPage;
-
 use CatPaw\Web\Server;
 
 class Cat {
@@ -23,7 +22,7 @@ function main(): void {
     $server->router->get(
         path    : '/cats',
         function:
-        #[ProducesPage(Cat::class, APPLICATION_JSON, new Cat(name:'Kitty'))]
+        #[ProducesPage(__OK, __APPLICATION_JSON, 'on success', Cat::class, new Cat(name:'Kitty'))]
         function() use (&$cats) {
             return $cats;
         }
@@ -32,7 +31,7 @@ function main(): void {
     $server->router->post(
         path    : '/cats',
         function:
-        #[Consumes(Cat::class, APPLICATION_JSON, new Cat(name:'Kitty'))]
+        #[Consumes(__APPLICATION_JSON, Cat::class, new Cat(name:'Kitty'))]
         function(#[Body] $cat) use (&$cats) {
             $cats[] = $cat;
         }

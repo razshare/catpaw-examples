@@ -1,24 +1,31 @@
 <?php
-
 use Amp\Http\Server\Request;
 use function CatPaw\Core\ok;
-
 use function CatPaw\Core\stop;
 use CatPaw\Core\Traits\CoreAttributeDefinition;
 
 use CatPaw\Core\Unsafe;
+use const CatPaw\Web\__OK;
+use const CatPaw\Web\__TEXT_PLAIN;
 use CatPaw\Web\Attributes\Produces;
 use CatPaw\Web\Interfaces\OnResult;
+use CatPaw\Web\Interfaces\ResponseModifier;
 use CatPaw\Web\Server;
-use const CatPaw\Web\TEXT_PLAIN;
+use function CatPaw\Web\success;
+
+use CatPaw\Web\SuccessResponseModifier;
 
 #[Attribute]
 class SecretBlazingCat implements OnResult {
     use CoreAttributeDefinition;
 
-    public function onResult(Request $request, mixed &$result): Unsafe {
-        if ("Here's a red cat" === $result) {
-            $result = <<<TEXT
+    public function onResult(Request $request, ResponseModifier $modifier): Unsafe {
+        if (!($modifier instanceof SuccessResponseModifier)) {
+            return ok();
+        }
+
+        if ("Here's a red cat" === $modifier->getData()) {
+            $data = <<<TEXT
                 I was gonna say `Here's a red cat`, but never mind that, here's a BLAZING red cat!!
 
                                 .,  ,.                       ,.
@@ -36,13 +43,14 @@ class SecretBlazingCat implements OnResult {
                                 (,(,.'     ))       (_ /    /
                                     (,(,(,_)mrf      (,(,(,_)
                 TEXT;
+            $modifier->setData($data);
         }
         return ok();
     }
 }
 
 #[SecretBlazingCat]
-#[Produces('string', TEXT_PLAIN)]
+#[Produces(__OK, __TEXT_PLAIN, 'on success', 'string')]
 function showcaseRandomCat() {
     static $cats = [
         'a red and white cat',
@@ -52,7 +60,7 @@ function showcaseRandomCat() {
         'a white and black cat',
     ];
 
-    return "Here's ".$cats[array_rand($cats)];
+    return success("Here's ".$cats[array_rand($cats)]);
 }
 
 function main() {

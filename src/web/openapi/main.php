@@ -1,22 +1,21 @@
 <?php
-
-use Amp\Http\HttpStatus;
 use function CatPaw\Core\stop;
+use const CatPaw\Web\__BAD_REQUEST;
+use const CatPaw\Web\__OK;
+use const CatPaw\Web\__TEXT_PLAIN;
 use CatPaw\Web\Attributes\Produces;
-
+use CatPaw\Web\Attributes\ProducesError;
 use CatPaw\Web\Attributes\Query;
 use function CatPaw\Web\failure;
 use CatPaw\Web\Server;
-
 use CatPaw\Web\Services\OpenApiService;
 use function CatPaw\Web\success;
 
-use const CatPaw\Web\TEXT_PLAIN;
-
-#[Produces('string', TEXT_PLAIN)]
-function plain(#[Query("name")] ?string $name) {
+#[Produces(__OK, __TEXT_PLAIN, 'on success', 'string')]
+#[ProducesError(__BAD_REQUEST, __TEXT_PLAIN, 'when query string `name` is not specified.')]
+function plain(#[Query] ?string $name) {
     if (!$name) {
-        return failure("Sorry, query string 'name' is required.", HttpStatus::BAD_REQUEST);
+        return failure("Sorry, query string 'name' is required.", __BAD_REQUEST);
     }
 
     return success("hello $name.");

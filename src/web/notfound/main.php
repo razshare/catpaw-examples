@@ -1,16 +1,21 @@
 <?php
 
 use function Amp\File\getSize;
+use function Amp\File\isFile;
+
 use Amp\Http\Server\Request;
 use Amp\Http\Server\Response;
 
 use CatPaw\Core\File;
 use function CatPaw\Core\stop;
-use function CatPaw\Web\failure;
+
+use const CatPaw\Web\__INTERNAL_SERVER_ERROR;
+use const CatPaw\Web\__NOT_FOUND;
 
 use CatPaw\Web\HttpStatus;
 use CatPaw\Web\Interfaces\FileServerInterface;
 use CatPaw\Web\Mime;
+
 use CatPaw\Web\Server;
 
 class MyCustomFileServer implements FileServerInterface {
@@ -22,13 +27,16 @@ class MyCustomFileServer implements FileServerInterface {
 
     public function serve(Request $request): Response {
         $path     = urldecode($request->getUri()->getPath());
-        $server   = $this->server;
-        $fileName = $server->www.$path;
+        $fileName = $this->server->www.$path;
+        
+        if (!isFile($fileName)) {
+            return new Response(status: __NOT_FOUND, body:"File $path not found.");
+        }
 
         $file = File::open($fileName, 'r')->try($error);
 
         if ($error) {
-            return failure($error->getMessage());
+            return new Response(status: __INTERNAL_SERVER_ERROR, body:$error->getMessage());
         }
 
         return new Response(
@@ -44,7 +52,7 @@ class MyCustomFileServer implements FileServerInterface {
 }
 
 function main() {
-    $server = Server::create()->try($error) or stop($error);
+    $server = Server::create(www:'./public')->try($error) or stop($error);
     $server->setFileServer(MyCustomFileServer::create($server));
     $server->start()->await()->try($error) or stop($error);
 }
