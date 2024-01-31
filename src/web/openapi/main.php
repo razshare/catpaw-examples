@@ -1,21 +1,21 @@
 <?php
-use function CatPaw\Core\stop;
-use const CatPaw\Web\__BAD_REQUEST;
-use const CatPaw\Web\__OK;
-use const CatPaw\Web\__TEXT_PLAIN;
+use function CatPaw\Core\anyError;
 use CatPaw\Web\Attributes\Produces;
 use CatPaw\Web\Attributes\ProducesError;
 use CatPaw\Web\Attributes\Query;
+use const CatPaw\Web\BAD_REQUEST;
 use function CatPaw\Web\failure;
+use const CatPaw\Web\OK;
 use CatPaw\Web\Server;
 use CatPaw\Web\Services\OpenApiService;
 use function CatPaw\Web\success;
+use const CatPaw\Web\TEXT_PLAIN;
 
-#[Produces(__OK, __TEXT_PLAIN, 'on success', 'string')]
-#[ProducesError(__BAD_REQUEST, __TEXT_PLAIN, 'when query string `name` is not specified.')]
+#[Produces(OK, TEXT_PLAIN, 'on success', 'string')]
+#[ProducesError(BAD_REQUEST, TEXT_PLAIN, 'when query string `name` is not specified.')]
 function plain(#[Query] ?string $name) {
     if (!$name) {
-        return failure("Sorry, query string 'name' is required.", __BAD_REQUEST);
+        return failure("Sorry, query string 'name' is required.", BAD_REQUEST);
     }
 
     return success("hello $name.");
@@ -23,11 +23,20 @@ function plain(#[Query] ?string $name) {
 
 
 function main(OpenApiService $oa) {
-    $oa->setTitle('My Title');
-    $oa->setVersion('0.0.1');
+    return anyError(function() use ($oa) {
+        $oa->setTitle('My Title');
+        $oa->setVersion('0.0.1');
 
-    $server = Server::create(www: './public')->try($error)  or stop($error);
-    $server->router->get('/plain', plain(...))->try($error) or stop($error);
-    showSwaggerUI($server)->try($error)                     or stop($error);
-    $server->start()->await()->try($error)                  or stop($error);
+        $server = Server::create(www: './public')->try($error)
+        or yield $error;
+
+        $server->router->get('/plain', plain(...))->try($error)
+        or yield $error;
+
+        showSwaggerUI($server)->try($error)
+        or yield $error;
+
+        $server->start()->await()->try($error)
+        or yield $error;
+    });
 }

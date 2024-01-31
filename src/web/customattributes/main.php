@@ -1,19 +1,17 @@
 <?php
 use Amp\Http\Server\Request;
+use function CatPaw\Core\anyError;
 use function CatPaw\Core\ok;
-use function CatPaw\Core\stop;
 use CatPaw\Core\Traits\CoreAttributeDefinition;
-
 use CatPaw\Core\Unsafe;
-use const CatPaw\Web\__OK;
-use const CatPaw\Web\__TEXT_PLAIN;
 use CatPaw\Web\Attributes\Produces;
 use CatPaw\Web\Interfaces\OnResult;
 use CatPaw\Web\Interfaces\ResponseModifier;
+use const CatPaw\Web\OK;
 use CatPaw\Web\Server;
 use function CatPaw\Web\success;
-
 use CatPaw\Web\SuccessResponseModifier;
+use const CatPaw\Web\TEXT_PLAIN;
 
 #[Attribute]
 class SecretBlazingCat implements OnResult {
@@ -50,7 +48,7 @@ class SecretBlazingCat implements OnResult {
 }
 
 #[SecretBlazingCat]
-#[Produces(__OK, __TEXT_PLAIN, 'on success', 'string')]
+#[Produces(OK, TEXT_PLAIN, 'on success', 'string')]
 function showcaseRandomCat() {
     static $cats = [
         'a red and white cat',
@@ -64,8 +62,17 @@ function showcaseRandomCat() {
 }
 
 function main() {
-    $server = Server::create(www:'./public')->try($error)                             or stop($error);
-    $server->router->get('/showcase-random-cat', showcaseRandomCat(...))->try($error) or stop($error);
-    showSwaggerUI($server)->try($error)                                               or stop($error);
-    $server->start()->await()->try($error)                                            or stop($error);
+    return anyError(function() {
+        $server = Server::create(www:'./public')->try($error)
+        or yield $error;
+
+        $server->router->get('/showcase-random-cat', showcaseRandomCat(...))->try($error)
+        or yield $error;
+
+        showSwaggerUI($server)->try($error)
+        or yield $error;
+
+        $server->start()->await()->try($error)
+        or yield $error;
+    });
 }

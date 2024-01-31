@@ -1,14 +1,10 @@
 <?php
-
 use function CatPaw\Core\anyError;
 use CatPaw\Core\Unsafe;
-
-use const CatPaw\Web\__APPLICATION_JSON;
+use const CatPaw\Web\APPLICATION_JSON;
 use CatPaw\Web\Attributes\IgnoreOpenApi;
 use CatPaw\Web\Server;
-
 use CatPaw\Web\Services\OpenApiService;
-
 use function CatPaw\Web\success;
 
 /**
@@ -22,8 +18,10 @@ function showSwaggerUI(Server $server):Unsafe {
             path: "/openapi",
             function:
             #[IgnoreOpenApi]
-            fn (OpenApiService $oa) => success($oa->getData())->as(__APPLICATION_JSON)
-        )->try($error) or yield $error;
+            fn (OpenApiService $oa)
+                => success($oa->getData())->as(APPLICATION_JSON)
+        )->try($error)
+        or yield $error;
 
         echo <<<TEXT
 

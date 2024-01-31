@@ -1,5 +1,4 @@
 <?php
-
 use function Amp\delay;
 use function CatPaw\Store\readable;
 

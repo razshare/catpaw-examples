@@ -1,12 +1,13 @@
 <?php
 use function Amp\File\getSize;
 use Amp\Http\HttpStatus;
+
 use Amp\Http\Server\Request;
 use Amp\Http\Server\Response;
+use function CatPaw\Core\anyError;
 use CatPaw\Core\File;
-use function CatPaw\Core\stop;
-use const CatPaw\Web\__INTERNAL_SERVER_ERROR;
 use CatPaw\Web\Interfaces\FileServerInterface;
+use const CatPaw\Web\INTERNAL_SERVER_ERROR;
 use CatPaw\Web\Mime;
 use CatPaw\Web\Server;
 
@@ -38,7 +39,7 @@ class MyCustomByteRangeFileServer implements FileServerInterface {
         $file = File::open($fileName, 'r')->try($error);
 
         if ($error) {
-            return new Response(status: __INTERNAL_SERVER_ERROR, body: $error->getMessage());
+            return new Response(status: INTERNAL_SERVER_ERROR, body: $error->getMessage());
         }
 
         return new Response(
@@ -54,7 +55,13 @@ class MyCustomByteRangeFileServer implements FileServerInterface {
 }
 
 function main(ByteRangeService $range) {
-    $server = Server::create(www: './public')->try($error) or stop($error);
-    $server->setFileServer(fileServer: MyCustomByteRangeFileServer::create($server, $range));
-    $server->start()->await()->try($error) or stop($error);
+    return anyError(function() use ($range) {
+        $server = Server::create(www: './public')->try($error)
+        or yield $error;
+
+        $server->setFileServer(fileServer: MyCustomByteRangeFileServer::create($server, $range));
+        
+        $server->start()->await()->try($error)
+        or yield $error;
+    });
 }

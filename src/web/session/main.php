@@ -1,18 +1,13 @@
 <?php
-
-use function CatPaw\Core\stop;
-
-use const CatPaw\Web\__OK;
-use const CatPaw\Web\__TEXT_HTML;
-
+use function CatPaw\Core\anyError;
 use CatPaw\Web\Attributes\Produces;
 use CatPaw\Web\Attributes\Session;
-
+use const CatPaw\Web\OK;
 use CatPaw\Web\Server;
-
 use function CatPaw\Web\success;
+use const CatPaw\Web\TEXT_HTML;
 
-#[Produces(__OK, __TEXT_HTML, 'on success', 'string')]
+#[Produces(OK, TEXT_HTML, 'on success', 'string')]
 function serve(#[Session] array &$session) {
     if (!isset($session['created'])) {
         $session['created'] = time();
@@ -28,7 +23,14 @@ function serve(#[Session] array &$session) {
 }
 
 function main() {
-    $server = Server::create()->try($error)            or stop($error);
-    $server->router->get("/", serve(...))->try($error) or stop($error);
-    $server->start()->await()->try($error)             or stop($error);
+    return anyError(function() {
+        $server = Server::create()->try($error)
+        or yield $error;
+
+        $server->router->get("/", serve(...))->try($error)
+        or yield $error;
+
+        $server->start()->await()->try($error)
+        or yield $error;
+    });
 }
