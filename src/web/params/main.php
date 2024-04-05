@@ -17,7 +17,7 @@ use const CatPaw\Web\TEXT_PLAIN;
 
 class Account {
     function __construct(
-        public string $username,
+        public string $id,
         public string $name,
     ) {
     }
@@ -29,12 +29,12 @@ class AccountService {
     private array $accounts = [];
 
     #[Entry] function start() {
-        $this->accounts[] = new Account(username: uuid(), name: 'Raz');
-        $this->accounts[] = new Account(username: uuid(), name: 'Marta');
-        $this->accounts[] = new Account(username: uuid(), name: 'Tom');
-        $this->accounts[] = new Account(username: uuid(), name: 'Electra');
-        $this->accounts[] = new Account(username: uuid(), name: 'Brahim');
-        $this->accounts[] = new Account(username: uuid(), name: 'Oscar');
+        $this->accounts[] = new Account(id: uuid(), name: 'Raz');
+        $this->accounts[] = new Account(id: uuid(), name: 'Marta');
+        $this->accounts[] = new Account(id: uuid(), name: 'Tom');
+        $this->accounts[] = new Account(id: uuid(), name: 'Electra');
+        $this->accounts[] = new Account(id: uuid(), name: 'Brahim');
+        $this->accounts[] = new Account(id: uuid(), name: 'Oscar');
     }
 
     /**
@@ -67,9 +67,9 @@ class AccountService {
 #[ProducesPage(
     status: OK,
     contentType: APPLICATION_JSON,
-    description: 'on success',
+    description: 'On success',
     className: Account::class,
-    example: new Account(username:'b5e6a138-0d9e-42d4-aa2c-db33a4fcec37', name:'user1')
+    example: new Account(id:'b5e6a138-0d9e-42d4-aa2c-db33a4fcec37', name:'user1')
 )]
 function findAccountsByName(AccountService $accountService, Page $page, string $name) {
     $items = $accountService->findByName($page, $name);
@@ -80,24 +80,24 @@ function findAccountsByName(AccountService $accountService, Page $page, string $
 #[Produces(
     status: OK,
     contentType: TEXT_PLAIN,
-    description: 'on success',
+    description: 'On success',
     className: 'string',
     example: 'Account user1 has been activated.'
 )]
-function toggleAccountByUsername(string $username, bool $active) {
+function toggleAccountById(string $id, bool $active) {
     if ($active) {
-        return success("Account $username has been activated.");
+        return success("Account $id has been activated.");
     }
-    return success("Account $username has been deactivated.");
+    return success("Account $id has been deactivated.");
 }
 
 #[Summary('Find all accounts.')]
 #[ProducesPage(
     status: OK,
     contentType: APPLICATION_JSON,
-    description: 'on success',
+    description: 'On success',
     className: Account::class,
-    example: new Account(username:'b5e6a138-0d9e-42d4-aa2c-db33a4fcec37', name:'user1')
+    example: new Account(id:'b5e6a138-0d9e-42d4-aa2c-db33a4fcec37', name:'user1')
 )]
 function findAll(AccountService $accountService, Page $page) {
     return success($accountService->findAll($page))->as(APPLICATION_JSON)->page($page);
@@ -105,13 +105,13 @@ function findAll(AccountService $accountService, Page $page) {
 
 function main(): Unsafe {
     return anyError(function() {
-        $server = Server::create( www:'./public' )->try($error)
+        $server = Server::create(www:'./public')->try($error)
         or yield $error;
         
         $server->router->get('/account/by-name/{name}', findAccountsByName(...))->try($error)
         or yield $error;
         
-        $server->router->get('/account/{username}/toggle/{active}', toggleAccountByUsername(...))->try($error)
+        $server->router->get('/account/{id}/toggle/{active}', toggleAccountById(...))->try($error)
         or yield $error;
         
         $server->router->get('/accounts', findAll(...))->try($error)
@@ -120,7 +120,7 @@ function main(): Unsafe {
         showSwaggerUI($server)->try($error)
         or yield $error;
         
-        $server->start()->await()->try($error)
+        $server->start()->try($error)
         or yield $error;
     });
 }

@@ -1,12 +1,16 @@
 <?php
 use function CatPaw\Core\anyError;
 use CatPaw\Core\Unsafe;
+
 use const CatPaw\Web\APPLICATION_JSON;
 use CatPaw\Web\Attributes\Body;
 use CatPaw\Web\Attributes\Consumes;
 use CatPaw\Web\Attributes\ProducesPage;
 use const CatPaw\Web\OK;
+
+use CatPaw\Web\Page;
 use CatPaw\Web\Server;
+use function CatPaw\Web\success;
 
 class Cat {
     public function __construct(
@@ -19,14 +23,15 @@ function main(): Unsafe {
     return anyError(function() {
         $cats = [];
 
-        $get = #[ProducesPage(OK, APPLICATION_JSON, 'on success', Cat::class, new Cat(name:'Kitty'))]
-        function() use (&$cats) {
-            return $cats;
+        $get = #[ProducesPage(OK, APPLICATION_JSON, 'On success', Cat::class, new Cat(name:'Kitty'))]
+        function(Page $page) use (&$cats) {
+            return success($cats)->page($page)->as(APPLICATION_JSON);
         };
 
         $post = #[Consumes(APPLICATION_JSON, Cat::class, new Cat(name:'Kitty'))]
         function(#[Body] $cat) use (&$cats) {
             $cats[] = $cat;
+            return success();
         };
 
         $server = Server::create(www:'public')->try($error)
@@ -41,7 +46,7 @@ function main(): Unsafe {
         showSwaggerUI($server)->try($error)
         or yield $error;
 
-        $server->start()->await()->try($error)
+        $server->start()->try($error)
         or yield $error;
     });
 }

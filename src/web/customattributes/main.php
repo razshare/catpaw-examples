@@ -5,7 +5,7 @@ use function CatPaw\Core\ok;
 use CatPaw\Core\Traits\CoreAttributeDefinition;
 use CatPaw\Core\Unsafe;
 use CatPaw\Web\Attributes\Produces;
-use CatPaw\Web\Interfaces\OnResult;
+use CatPaw\Web\Interfaces\OnResponse;
 use CatPaw\Web\Interfaces\ResponseModifier;
 use const CatPaw\Web\OK;
 use CatPaw\Web\Server;
@@ -14,10 +14,10 @@ use CatPaw\Web\SuccessResponseModifier;
 use const CatPaw\Web\TEXT_PLAIN;
 
 #[Attribute]
-class SecretBlazingCat implements OnResult {
+class SecretBlazingCat implements OnResponse {
     use CoreAttributeDefinition;
 
-    public function onResult(Request $request, ResponseModifier $modifier): Unsafe {
+    public function onResponse(Request $request, ResponseModifier $modifier): Unsafe {
         if (!($modifier instanceof SuccessResponseModifier)) {
             return ok();
         }
@@ -48,7 +48,7 @@ class SecretBlazingCat implements OnResult {
 }
 
 #[SecretBlazingCat]
-#[Produces(OK, TEXT_PLAIN, 'on success', 'string')]
+#[Produces(OK, TEXT_PLAIN, 'On success', 'string')]
 function showcaseRandomCat() {
     static $cats = [
         'a red and white cat',
@@ -72,7 +72,7 @@ function main() {
         showSwaggerUI($server)->try($error)
         or yield $error;
 
-        $server->start()->await()->try($error)
+        $server->start()->try($error)
         or yield $error;
     });
 }

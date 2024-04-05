@@ -52,7 +52,7 @@ function main() {
 
         $server->setFileServer(MyCustomFileServer::create($server));
 
-        $server->start()->await()->try($error)
+        $server->start()->try($error)
         or yield $error;
     });
 }

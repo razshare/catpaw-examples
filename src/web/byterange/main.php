@@ -61,7 +61,7 @@ function main(ByteRangeService $range) {
 
         $server->setFileServer(fileServer: MyCustomByteRangeFileServer::create($server, $range));
         
-        $server->start()->await()->try($error)
+        $server->start()->try($error)
         or yield $error;
     });
 }

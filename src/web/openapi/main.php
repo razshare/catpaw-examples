@@ -11,7 +11,7 @@ use CatPaw\Web\Services\OpenApiService;
 use function CatPaw\Web\success;
 use const CatPaw\Web\TEXT_PLAIN;
 
-#[Produces(OK, TEXT_PLAIN, 'on success', 'string')]
+#[Produces(OK, TEXT_PLAIN, 'On success', 'string')]
 #[ProducesError(BAD_REQUEST, TEXT_PLAIN, 'when query string `name` is not specified.')]
 function plain(#[Query] ?string $name) {
     if (!$name) {
@@ -36,7 +36,7 @@ function main(OpenApiService $oa) {
         showSwaggerUI($server)->try($error)
         or yield $error;
 
-        $server->start()->await()->try($error)
+        $server->start()->try($error)
         or yield $error;
     });
 }

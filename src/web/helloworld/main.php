@@ -15,7 +15,7 @@ function main() {
         $server->router->get('/', hello(...))->try($error)
         or yield $error;
 
-        $server->start()->await()->try($error)
+        $server->start()->try($error)
         or yield $error;
     });
 }

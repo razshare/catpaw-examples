@@ -1,25 +1,22 @@
 <?php
 use function CatPaw\Core\anyError;
 use CatPaw\Web\Attributes\Produces;
-use CatPaw\Web\Attributes\Session;
+use CatPaw\Web\Interfaces\SessionInterface;
+
 use const CatPaw\Web\OK;
 use CatPaw\Web\Server;
 use function CatPaw\Web\success;
 use const CatPaw\Web\TEXT_HTML;
 
-#[Produces(OK, TEXT_HTML, 'on success', 'string')]
-function serve(#[Session] array &$session) {
-    if (!isset($session['created'])) {
-        $session['created'] = time();
-    }
-
-    $contents = print_r($session, true);
+#[Produces(OK, TEXT_HTML, 'On success', 'string')]
+function serve(SessionInterface $session) {
+    $created = $session->ref('created', time());
 
     return success(
         <<<HTML
-            this is my session <br /><pre>$contents</pre>
+            This session was created at <span style="color:red">$created</span>
             HTML
-    );
+    )->as(TEXT_HTML);
 }
 
 function main() {
@@ -30,7 +27,7 @@ function main() {
         $server->router->get("/", serve(...))->try($error)
         or yield $error;
 
-        $server->start()->await()->try($error)
+        $server->start()->try($error)
         or yield $error;
     });
 }
