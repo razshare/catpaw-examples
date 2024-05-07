@@ -1,5 +1,7 @@
 <?php
 use function CatPaw\Core\anyError;
+use function CatPaw\Core\asFileName;
+
 use CatPaw\Web\Server;
 use function CatPaw\Web\success;
 
@@ -9,13 +11,8 @@ function hello() {
 
 function main() {
     return anyError(function() {
-        $server = Server::create()->try($error)
-        or yield $error;
-
-        $server->router->get('/', hello(...))->try($error)
-        or yield $error;
-
-        $server->start()->try($error)
-        or yield $error;
+        $server = Server::get()->withStaticsLocation(asFileName(__DIR__, '../../../public'));
+        $server->router->get('/', hello(...))->try();
+        $server->start()->try();
     });
 }

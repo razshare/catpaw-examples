@@ -1,5 +1,7 @@
 <?php
 use function CatPaw\Core\anyError;
+use function CatPaw\Core\asFileName;
+
 use CatPaw\Core\Attributes\Entry;
 use CatPaw\Core\Attributes\Service;
 
@@ -105,22 +107,11 @@ function findAll(AccountService $accountService, Page $page) {
 
 function main(): Unsafe {
     return anyError(function() {
-        $server = Server::create(www:'./public')->try($error)
-        or yield $error;
-        
-        $server->router->get('/account/by-name/{name}', findAccountsByName(...))->try($error)
-        or yield $error;
-        
-        $server->router->get('/account/{id}/toggle/{active}', toggleAccountById(...))->try($error)
-        or yield $error;
-        
-        $server->router->get('/accounts', findAll(...))->try($error)
-        or yield $error;
-        
-        showSwaggerUI($server)->try($error)
-        or yield $error;
-        
-        $server->start()->try($error)
-        or yield $error;
+        $server = Server::get()->withStaticsLocation(asFileName(__DIR__, '../../../public'));
+        $server->router->get('/account/by-name/{name}', findAccountsByName(...))->try();
+        $server->router->get('/account/{id}/toggle/{active}', toggleAccountById(...))->try();
+        $server->router->get('/accounts', findAll(...))->try();
+        showSwaggerUI($server)->try();
+        $server->start()->try();
     });
 }

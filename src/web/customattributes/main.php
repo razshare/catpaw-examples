@@ -1,6 +1,7 @@
 <?php
 use Amp\Http\Server\Request;
 use function CatPaw\Core\anyError;
+use function CatPaw\Core\asFileName;
 use function CatPaw\Core\ok;
 use CatPaw\Core\Traits\CoreAttributeDefinition;
 use CatPaw\Core\Unsafe;
@@ -63,16 +64,9 @@ function showcaseRandomCat() {
 
 function main() {
     return anyError(function() {
-        $server = Server::create(www:'./public')->try($error)
-        or yield $error;
-
-        $server->router->get('/showcase-random-cat', showcaseRandomCat(...))->try($error)
-        or yield $error;
-
-        showSwaggerUI($server)->try($error)
-        or yield $error;
-
-        $server->start()->try($error)
-        or yield $error;
+        $server = Server::get()->withStaticsLocation(asFileName(__DIR__, '../../../public'));
+        $server->router->get('/showcase-random-cat', showcaseRandomCat(...))->try();
+        showSwaggerUI($server)->try();
+        $server->start()->try();
     });
 }

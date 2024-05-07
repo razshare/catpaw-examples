@@ -20,8 +20,7 @@ function showSwaggerUI(Server $server):Unsafe {
             #[IgnoreOpenApi]
             fn (OpenApiService $oa)
                 => success($oa->getData())->as(APPLICATION_JSON)
-        )->try($error)
-        or yield $error;
+        )->try();
 
         echo <<<TEXT
 

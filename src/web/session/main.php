@@ -1,5 +1,7 @@
 <?php
 use function CatPaw\Core\anyError;
+use function CatPaw\Core\asFileName;
+
 use CatPaw\Web\Attributes\Produces;
 use CatPaw\Web\Interfaces\SessionInterface;
 
@@ -21,13 +23,8 @@ function serve(SessionInterface $session) {
 
 function main() {
     return anyError(function() {
-        $server = Server::create()->try($error)
-        or yield $error;
-
-        $server->router->get("/", serve(...))->try($error)
-        or yield $error;
-
-        $server->start()->try($error)
-        or yield $error;
+        $server = Server::get()->withStaticsLocation(asFileName(__DIR__, '../../../public'));
+        $server->router->get("/", serve(...))->try();
+        $server->start()->try();
     });
 }

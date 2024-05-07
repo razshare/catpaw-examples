@@ -11,8 +11,7 @@ function main(GpioService $gpio) {
         while (true) {
             delay(1);
             $led = !$led;
-            $writer12->write($led?'1':'0')->try($error)
-            or yield $error;
+            $writer12->write($led?'1':'0')->try();
         }
     });
 }

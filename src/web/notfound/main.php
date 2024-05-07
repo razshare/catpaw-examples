@@ -4,6 +4,8 @@ use function Amp\File\isFile;
 use Amp\Http\Server\Request;
 use Amp\Http\Server\Response;
 use function CatPaw\Core\anyError;
+use function CatPaw\Core\asFileName;
+
 use CatPaw\Core\File;
 use CatPaw\Web\HttpStatus;
 use CatPaw\Web\Interfaces\FileServerInterface;
@@ -21,13 +23,13 @@ class MyCustomFileServer implements FileServerInterface {
 
     public function serve(Request $request): Response {
         $path     = urldecode($request->getUri()->getPath());
-        $fileName = $this->server->www.$path;
+        $fileName = $this->server->getStaticsLocation().$path;
         
         if (!isFile($fileName)) {
             return new Response(status: NOT_FOUND, body:"File $path not found.");
         }
 
-        $file = File::open($fileName, 'r')->try($error);
+        $file = File::open($fileName, 'r')->unwrap($error);
 
         if ($error) {
             return new Response(status: INTERNAL_SERVER_ERROR, body:$error->getMessage());
@@ -47,12 +49,8 @@ class MyCustomFileServer implements FileServerInterface {
 
 function main() {
     return anyError(function() {
-        $server = Server::create(www:'./public')->try($error)
-        or yield $error;
-
+        $server = Server::get()->withStaticsLocation(asFileName(__DIR__, '../../../public'));
         $server->setFileServer(MyCustomFileServer::create($server));
-
-        $server->start()->try($error)
-        or yield $error;
+        $server->start()->try();
     });
 }

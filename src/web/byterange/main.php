@@ -5,6 +5,8 @@ use Amp\Http\HttpStatus;
 use Amp\Http\Server\Request;
 use Amp\Http\Server\Response;
 use function CatPaw\Core\anyError;
+use function CatPaw\Core\asFileName;
+
 use CatPaw\Core\File;
 use CatPaw\Web\Interfaces\FileServerInterface;
 use const CatPaw\Web\INTERNAL_SERVER_ERROR;
@@ -23,20 +25,20 @@ class MyCustomByteRangeFileServer implements FileServerInterface {
     public function serve(Request $request): Response {
         $server   = $this->server;
         $range    = $this->byteRangeService;
-        $fileName = "{$server->www}/videoplayback.mp4";
+        $fileName = "{$server->getStaticsLocation()}/videoplayback.mp4";
 
 
         $response = $range->file(
             rangeQuery: $request->getHeader('range') ?? '',
             fileName: $fileName,
-        )->try($error);
+        )->unwrap($error);
 
         if (!$error) {
             $response->setHeader("Content-Type", Mime::findContentType($fileName));
             return $response;
         }
 
-        $file = File::open($fileName, 'r')->try($error);
+        $file = File::open($fileName, 'r')->unwrap($error);
 
         if ($error) {
             return new Response(status: INTERNAL_SERVER_ERROR, body: $error->getMessage());
@@ -56,12 +58,8 @@ class MyCustomByteRangeFileServer implements FileServerInterface {
 
 function main(ByteRangeService $range) {
     return anyError(function() use ($range) {
-        $server = Server::create(www: './public')->try($error)
-        or yield $error;
-
+        $server = Server::get()->withStaticsLocation(asFileName(__DIR__, '../../../public'));
         $server->setFileServer(fileServer: MyCustomByteRangeFileServer::create($server, $range));
-        
-        $server->start()->try($error)
-        or yield $error;
+        $server->start()->try();
     });
 }

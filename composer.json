@@ -22,17 +22,14 @@
     "prod:start:web:openapi": "php ./bin/start --entry='./src/web/openapi/main.php'",
     "prod:start:web:params": "php ./bin/start --entry='./src/web/params/main.php'",
     "prod:start:web:session": "php ./bin/start --entry='./src/web/session/main.php'",
-    "dev:precommit": "pre-commit install && pre-commit autoupdate",
     "dev:tips": "[ ! -f catpaw.phar ] && echo '' || php catpaw.phar --tips",
+    "dev:install-pre-commit": "php catpaw.phar --install-pre-commit='composer prod:fix'",
     "download:catpaw": "[ ! -f catpaw.phar ] && wget https://github.com/tncrazvan/catpaw/releases/latest/download/catpaw.phar || echo ''",
-    "download:psalm": "[ ! -f psalm.phar ] && wget https://github.com/vimeo/psalm/releases/latest/download/psalm.phar || echo ''",
     "post-autoload-dump": [
-      "@download:psalm",
       "@download:catpaw",
       "@dev:tips"
     ],
     "post-create-project-cmd": [
-      "@download:psalm",
       "@download:catpaw",
       "@dev:tips"
     ]
@@ -56,7 +53,7 @@
   "minimum-stability": "stable",
   "require": {
     "php": "^8.2",
-    "catpaw/catpaw": "^2.0",
+    "catpaw/catpaw": "^3.0",
     "amphp/amp": "^3.0",
     "amphp/file": "^3.0"
   },

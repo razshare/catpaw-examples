@@ -1,5 +1,7 @@
 <?php
 use function CatPaw\Core\anyError;
+use function CatPaw\Core\asFileName;
+
 use CatPaw\Core\Unsafe;
 
 use const CatPaw\Web\APPLICATION_JSON;
@@ -34,19 +36,10 @@ function main(): Unsafe {
             return success();
         };
 
-        $server = Server::create(www:'public')->try($error)
-        or yield $error;
-
-        $server->router->get('/cats', $get)->try($error)
-        or yield $error;
-
-        $server->router->post('/cats', $post)->try($error)
-        or yield $error;
-
-        showSwaggerUI($server)->try($error)
-        or yield $error;
-
-        $server->start()->try($error)
-        or yield $error;
+        $server = Server::get()->withStaticsLocation(asFileName(__DIR__, '../../../public'));
+        $server->router->get('/cats', $get)->try();
+        $server->router->post('/cats', $post)->try();
+        showSwaggerUI($server)->try();
+        $server->start()->try();
     });
 }

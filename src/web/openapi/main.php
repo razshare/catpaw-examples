@@ -1,5 +1,7 @@
 <?php
 use function CatPaw\Core\anyError;
+use function CatPaw\Core\asFileName;
+
 use CatPaw\Web\Attributes\Produces;
 use CatPaw\Web\Attributes\ProducesError;
 use CatPaw\Web\Attributes\Query;
@@ -26,17 +28,9 @@ function main(OpenApiService $oa) {
     return anyError(function() use ($oa) {
         $oa->setTitle('My Title');
         $oa->setVersion('0.0.1');
-
-        $server = Server::create(www: './public')->try($error)
-        or yield $error;
-
-        $server->router->get('/plain', plain(...))->try($error)
-        or yield $error;
-
-        showSwaggerUI($server)->try($error)
-        or yield $error;
-
-        $server->start()->try($error)
-        or yield $error;
+        $server = Server::get()->withStaticsLocation(asFileName(__DIR__, '../../../public'));
+        $server->router->get('/plain', plain(...))->try();
+        showSwaggerUI($server)->try();
+        $server->start()->try();
     });
 }
