@@ -15,7 +15,7 @@
     "prod:start:readable": "php ./bin/start --entry='./src/readable/main.php'",
     "prod:start:writable": "php ./bin/start --entry='./src/writable/main.php'",
     "prod:start:web:byterange": "php ./bin/start --entry='./src/web/byterange/main.php'",
-    "prod:start:web:cats": "php -dxdebug.mode=off -dxdebug.start_with_request=yes ./bin/start --entry='./src/web/cats/main.php'",
+    "prod:start:web:cats": "php ./bin/start --entry='./src/web/cats/main.php'",
     "prod:start:web:customattributes": "php ./bin/start --entry='./src/web/customattributes/main.php'",
     "prod:start:web:helloworld": "php ./bin/start --entry='./src/web/helloworld/main.php'",
     "prod:start:web:notfound": "php ./bin/start --entry='./src/web/notfound/main.php'",
@@ -53,7 +53,7 @@
   "minimum-stability": "stable",
   "require": {
     "php": "^8.2",
-    "catpaw/catpaw": "^3.0",
+    "catpaw/catpaw": "^3.4",
     "amphp/amp": "^3.0",
     "amphp/file": "^3.0"
   },

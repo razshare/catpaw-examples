@@ -3,10 +3,11 @@ use function CatPaw\Core\anyError;
 use function CatPaw\Core\asFileName;
 
 use CatPaw\Web\Attributes\Produces;
+use CatPaw\Web\Interfaces\RouterInterface;
+use CatPaw\Web\Interfaces\ServerInterface;
 use CatPaw\Web\Interfaces\SessionInterface;
 
 use const CatPaw\Web\OK;
-use CatPaw\Web\Server;
 use function CatPaw\Web\success;
 use const CatPaw\Web\TEXT_HTML;
 
@@ -21,10 +22,12 @@ function serve(SessionInterface $session) {
     )->as(TEXT_HTML);
 }
 
-function main() {
-    return anyError(function() {
-        $server = Server::get()->withStaticsLocation(asFileName(__DIR__, '../../../public'));
-        $server->router->get("/", serve(...))->try();
-        $server->start()->try();
+function main(ServerInterface $server, RouterInterface $router) {
+    return anyError(function() use ($server, $router) {
+        $router->get("/", serve(...))->try();
+        $server
+            ->withStaticsLocation(asFileName(__DIR__, '../../../public'))
+            ->start()
+            ->try();
     });
 }

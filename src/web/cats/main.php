@@ -1,17 +1,17 @@
 <?php
 use function CatPaw\Core\anyError;
 use function CatPaw\Core\asFileName;
-
 use CatPaw\Core\Unsafe;
 
 use const CatPaw\Web\APPLICATION_JSON;
-use CatPaw\Web\Attributes\Body;
 use CatPaw\Web\Attributes\Consumes;
 use CatPaw\Web\Attributes\ProducesPage;
+use CatPaw\Web\Body;
+use function CatPaw\Web\failure;
+use CatPaw\Web\Interfaces\RouterInterface;
+use CatPaw\Web\Interfaces\ServerInterface;
 use const CatPaw\Web\OK;
-
 use CatPaw\Web\Page;
-use CatPaw\Web\Server;
 use function CatPaw\Web\success;
 
 class Cat {
@@ -21,8 +21,8 @@ class Cat {
     }
 }
 
-function main(): Unsafe {
-    return anyError(function() {
+function main(ServerInterface $server, RouterInterface $router): Unsafe {
+    return anyError(function() use ($server, $router) {
         $cats = [];
 
         $get = #[ProducesPage(OK, APPLICATION_JSON, 'On success', Cat::class, new Cat(name:'Kitty'))]
@@ -31,15 +31,22 @@ function main(): Unsafe {
         };
 
         $post = #[Consumes(APPLICATION_JSON, Cat::class, new Cat(name:'Kitty'))]
-        function(#[Body] $cat) use (&$cats) {
+        function(Body $body) use (&$cats) {
+            $cat = $body->asObject()->unwrap($error);
+            if ($error) {
+                return failure($error);
+            }
             $cats[] = $cat;
             return success();
         };
 
-        $server = Server::get()->withStaticsLocation(asFileName(__DIR__, '../../../public'));
-        $server->router->get('/cats', $get)->try();
-        $server->router->post('/cats', $post)->try();
-        showSwaggerUI($server)->try();
-        $server->start()->try();
+        $router->get('/cats', $get)->try();
+        $router->post('/cats', $post)->try();
+        registerSwaggerUi($router)->try();
+
+        $server
+            ->withStaticsLocation(asFileName(__DIR__, '../../../public'))
+            ->start()
+            ->try();
     });
 }

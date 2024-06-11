@@ -11,9 +11,11 @@ use const CatPaw\Web\APPLICATION_JSON;
 use CatPaw\Web\Attributes\Produces;
 use CatPaw\Web\Attributes\ProducesPage;
 use CatPaw\Web\Attributes\Summary;
+use CatPaw\Web\Interfaces\RouterInterface;
+use CatPaw\Web\Interfaces\ServerInterface;
+
 use const CatPaw\Web\OK;
 use CatPaw\Web\Page;
-use CatPaw\Web\Server;
 use function CatPaw\Web\success;
 use const CatPaw\Web\TEXT_PLAIN;
 
@@ -105,13 +107,16 @@ function findAll(AccountService $accountService, Page $page) {
     return success($accountService->findAll($page))->as(APPLICATION_JSON)->page($page);
 }
 
-function main(): Unsafe {
-    return anyError(function() {
-        $server = Server::get()->withStaticsLocation(asFileName(__DIR__, '../../../public'));
-        $server->router->get('/account/by-name/{name}', findAccountsByName(...))->try();
-        $server->router->get('/account/{id}/toggle/{active}', toggleAccountById(...))->try();
-        $server->router->get('/accounts', findAll(...))->try();
-        showSwaggerUI($server)->try();
-        $server->start()->try();
+function main(ServerInterface $server, RouterInterface $router): Unsafe {
+    return anyError(function() use ($server, $router) {
+        $router->get('/account/by-name/{name}', findAccountsByName(...))->try();
+        $router->get('/account/{id}/toggle/{active}', toggleAccountById(...))->try();
+        $router->get('/accounts', findAll(...))->try();
+        registerSwaggerUi($router)->try();
+        
+        $server
+            ->withStaticsLocation(asFileName(__DIR__, '../../../public'))
+            ->start()
+            ->try();
     });
 }

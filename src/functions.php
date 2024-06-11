@@ -3,23 +3,23 @@ use function CatPaw\Core\anyError;
 use CatPaw\Core\Unsafe;
 use const CatPaw\Web\APPLICATION_JSON;
 use CatPaw\Web\Attributes\IgnoreOpenApi;
-use CatPaw\Web\Server;
-use CatPaw\Web\Services\OpenApiService;
+use CatPaw\Web\Interfaces\OpenApiInterface;
+use CatPaw\Web\Interfaces\RouterInterface;
 use function CatPaw\Web\success;
 
 /**
  *
- * @param  Server       $server
+ * @param  RouterInterface $router
  * @return Unsafe<void>
  */
-function showSwaggerUI(Server $server):Unsafe {
-    return anyError(function() use ($server) {
-        $server->router->get(
+function registerSwaggerUi(RouterInterface $router):Unsafe {
+    return anyError(function() use ($router) {
+        $router->get(
             path: "/openapi",
             function:
             #[IgnoreOpenApi]
-            fn (OpenApiService $oa)
-                => success($oa->getData())->as(APPLICATION_JSON)
+            fn (OpenApiInterface $openApi)
+                => success($openApi->getData())->as(APPLICATION_JSON)
         )->try();
 
         echo <<<TEXT

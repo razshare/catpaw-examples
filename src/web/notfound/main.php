@@ -3,22 +3,24 @@ use function Amp\File\getSize;
 use function Amp\File\isFile;
 use Amp\Http\Server\Request;
 use Amp\Http\Server\Response;
-use function CatPaw\Core\anyError;
 use function CatPaw\Core\asFileName;
+
+use CatPaw\Core\Container;
 
 use CatPaw\Core\File;
 use CatPaw\Web\HttpStatus;
 use CatPaw\Web\Interfaces\FileServerInterface;
+use CatPaw\Web\Interfaces\ServerInterface;
+
 use const CatPaw\Web\INTERNAL_SERVER_ERROR;
 use CatPaw\Web\Mime;
 use const CatPaw\Web\NOT_FOUND;
-use CatPaw\Web\Server;
 
 class MyCustomFileServer implements FileServerInterface {
-    public static function create(Server $server) {
+    public static function create(ServerInterface $server) {
         return new self($server);
     }
-    private function __construct(private Server $server) {
+    private function __construct(private ServerInterface $server) {
     }
 
     public function serve(Request $request): Response {
@@ -47,10 +49,7 @@ class MyCustomFileServer implements FileServerInterface {
     }
 }
 
-function main() {
-    return anyError(function() {
-        $server = Server::get()->withStaticsLocation(asFileName(__DIR__, '../../../public'));
-        $server->setFileServer(MyCustomFileServer::create($server));
-        $server->start()->try();
-    });
+function main(ServerInterface $server) {
+    Container::provide(FileServerInterface::class, MyCustomFileServer::create($server));
+    return $server->withStaticsLocation(asFileName(__DIR__, '../../../public'))->start();
 }

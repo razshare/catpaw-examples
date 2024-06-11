@@ -8,8 +8,10 @@ use CatPaw\Core\Unsafe;
 use CatPaw\Web\Attributes\Produces;
 use CatPaw\Web\Interfaces\OnResponse;
 use CatPaw\Web\Interfaces\ResponseModifier;
+use CatPaw\Web\Interfaces\RouterInterface;
+use CatPaw\Web\Interfaces\ServerInterface;
+
 use const CatPaw\Web\OK;
-use CatPaw\Web\Server;
 use function CatPaw\Web\success;
 use CatPaw\Web\SuccessResponseModifier;
 use const CatPaw\Web\TEXT_PLAIN;
@@ -62,11 +64,14 @@ function showcaseRandomCat() {
     return success("Here's ".$cats[array_rand($cats)]);
 }
 
-function main() {
-    return anyError(function() {
-        $server = Server::get()->withStaticsLocation(asFileName(__DIR__, '../../../public'));
-        $server->router->get('/showcase-random-cat', showcaseRandomCat(...))->try();
-        showSwaggerUI($server)->try();
-        $server->start()->try();
+function main(ServerInterface $server, RouterInterface $router) {
+    return anyError(function() use ($server, $router) {
+        $router->get('/showcase-random-cat', showcaseRandomCat(...))->try();
+        registerSwaggerUi($router)->try();
+
+        $server
+            ->withStaticsLocation(asFileName(__DIR__, '../../../public'))
+            ->start()
+            ->try();
     });
 }

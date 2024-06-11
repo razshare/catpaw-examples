@@ -1,25 +1,29 @@
 <?php
 use function Amp\File\getSize;
 use Amp\Http\HttpStatus;
-
 use Amp\Http\Server\Request;
 use Amp\Http\Server\Response;
 use function CatPaw\Core\anyError;
 use function CatPaw\Core\asFileName;
-
+use CatPaw\Core\Container;
 use CatPaw\Core\File;
+use CatPaw\Web\Interfaces\ByteRangeInterface;
 use CatPaw\Web\Interfaces\FileServerInterface;
+use CatPaw\Web\Interfaces\ServerInterface;
 use const CatPaw\Web\INTERNAL_SERVER_ERROR;
 use CatPaw\Web\Mime;
-use CatPaw\Web\Server;
-
-use CatPaw\Web\Services\ByteRangeService;
 
 class MyCustomByteRangeFileServer implements FileServerInterface {
-    public static function create(Server $server, ByteRangeService $byteRangeService) {
-        return new self($server, $byteRangeService);
+    public static function create(
+        ServerInterface $server,
+        ByteRangeInterface $byteRange
+    ) {
+        return new self($server, $byteRange);
     }
-    private function __construct(private Server $server, private ByteRangeService $byteRangeService) {
+    private function __construct(
+        private ServerInterface $server,
+        private ByteRangeInterface $byteRangeService
+    ) {
     }
 
     public function serve(Request $request): Response {
@@ -56,10 +60,16 @@ class MyCustomByteRangeFileServer implements FileServerInterface {
     }
 }
 
-function main(ByteRangeService $range) {
-    return anyError(function() use ($range) {
-        $server = Server::get()->withStaticsLocation(asFileName(__DIR__, '../../../public'));
-        $server->setFileServer(fileServer: MyCustomByteRangeFileServer::create($server, $range));
-        $server->start()->try();
+function main(ServerInterface $server, ByteRangeInterface $byteRange) {
+    return anyError(function() use ($server, $byteRange) {
+        Container::provide(
+            name: FileServerInterface::class,
+            value: MyCustomByteRangeFileServer::create($server, $byteRange),
+        );
+
+        $server
+            ->withStaticsLocation(asFileName(__DIR__, '../../../public'))
+            ->start()
+            ->try();
     });
 }
