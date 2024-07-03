@@ -19,7 +19,7 @@ function registerSwaggerUi(RouterInterface $router):Unsafe {
             function:
             #[IgnoreOpenApi]
             fn (OpenApiInterface $openApi)
-                => success($openApi->getData())->as(APPLICATION_JSON)
+                => success($openApi->data())->as(APPLICATION_JSON)
         )->try();
 
         echo <<<TEXT

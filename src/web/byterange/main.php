@@ -29,7 +29,7 @@ class MyCustomByteRangeFileServer implements FileServerInterface {
     public function serve(Request $request): Response {
         $server   = $this->server;
         $range    = $this->byteRangeService;
-        $fileName = "{$server->getStaticsLocation()}/videoplayback.mp4";
+        $fileName = "{$server->staticsLocation()}/videoplayback.mp4";
 
 
         $response = $range->file(
@@ -55,7 +55,7 @@ class MyCustomByteRangeFileServer implements FileServerInterface {
                 "Content-Type"   => Mime::findContentType($fileName),
                 "Content-Length" => getSize($fileName),
             ],
-            body: $file->getAmpFile(),
+            body: $file->ampFile(),
         );
     }
 }

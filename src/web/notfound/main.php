@@ -25,7 +25,7 @@ class MyCustomFileServer implements FileServerInterface {
 
     public function serve(Request $request): Response {
         $path     = urldecode($request->getUri()->getPath());
-        $fileName = $this->server->getStaticsLocation().$path;
+        $fileName = $this->server->staticsLocation().$path;
         
         if (!isFile($fileName)) {
             return new Response(status: NOT_FOUND, body:"File $path not found.");
@@ -44,7 +44,7 @@ class MyCustomFileServer implements FileServerInterface {
                 "Content-Type"   => Mime::findContentType($fileName),
                 "Content-Length" => getSize($fileName),
             ],
-            body: $file->getAmpFile(),
+            body: $file->ampFile(),
         );
     }
 }

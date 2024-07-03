@@ -1,9 +1,9 @@
 <?php
 use function Amp\delay;
 use function CatPaw\Core\anyError;
-use CatPaw\RaspberryPi\Services\GpioService;
+use CatPaw\RaspberryPi\Interfaces\GpioInterface;
 
-function main(GpioService $gpio) {
+function main(GpioInterface $gpio) {
     return anyError(function() use ($gpio) {
         $writer12 = $gpio->createWriter("12");
     

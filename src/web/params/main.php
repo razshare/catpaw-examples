@@ -3,7 +3,7 @@ use function CatPaw\Core\anyError;
 use function CatPaw\Core\asFileName;
 
 use CatPaw\Core\Attributes\Entry;
-use CatPaw\Core\Attributes\Service;
+use CatPaw\Core\Attributes\Provider;
 
 use CatPaw\Core\Unsafe;
 use function CatPaw\Core\uuid;
@@ -27,8 +27,25 @@ class Account {
     }
 }
 
-#[Service]
-class AccountService {
+interface AccountInterface {
+    /**
+     * Find accounts by name.
+     * @param  Page           $page
+     * @param  string         $name
+     * @return array<Account>
+     */
+    function findByName(Page $page, string $name):array;
+
+    /**
+     * Find all accounts (paginated).
+     * @param  Page  $page
+     * @return array
+     */
+    function findAll(Page $page):array;
+}
+
+#[Provider]
+class AccountService implements AccountInterface {
     /** @var array<Account> */
     private array $accounts = [];
 
@@ -64,8 +81,8 @@ class AccountService {
 
 /**
  *
- * @param AccountService $accountService
- * @param string         $name
+ * @param AccountInterface $account
+ * @param string           $name
  */
 #[Summary('Find accounts by their name.')]
 #[ProducesPage(
@@ -75,8 +92,8 @@ class AccountService {
     className: Account::class,
     example: new Account(id:'b5e6a138-0d9e-42d4-aa2c-db33a4fcec37', name:'user1')
 )]
-function findAccountsByName(AccountService $accountService, Page $page, string $name) {
-    $items = $accountService->findByName($page, $name);
+function findAccountsByName(AccountInterface $account, Page $page, string $name) {
+    $items = $account->findByName($page, $name);
     return success($items)->as(APPLICATION_JSON)->page($page);
 }
 
@@ -103,8 +120,8 @@ function toggleAccountById(string $id, bool $active) {
     className: Account::class,
     example: new Account(id:'b5e6a138-0d9e-42d4-aa2c-db33a4fcec37', name:'user1')
 )]
-function findAll(AccountService $accountService, Page $page) {
-    return success($accountService->findAll($page))->as(APPLICATION_JSON)->page($page);
+function findAll(AccountInterface $account, Page $page) {
+    return success($account->findAll($page))->as(APPLICATION_JSON)->page($page);
 }
 
 function main(ServerInterface $server, RouterInterface $router): Unsafe {

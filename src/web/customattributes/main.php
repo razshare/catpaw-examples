@@ -10,7 +10,6 @@ use CatPaw\Web\Interfaces\OnResponse;
 use CatPaw\Web\Interfaces\ResponseModifier;
 use CatPaw\Web\Interfaces\RouterInterface;
 use CatPaw\Web\Interfaces\ServerInterface;
-
 use const CatPaw\Web\OK;
 use function CatPaw\Web\success;
 use CatPaw\Web\SuccessResponseModifier;
@@ -25,7 +24,7 @@ class SecretBlazingCat implements OnResponse {
             return ok();
         }
 
-        if ("Here's a red cat" === $modifier->getData()) {
+        if ("Here's a red cat" === $modifier->data()) {
             $data = <<<TEXT
                 I was gonna say `Here's a red cat`, but never mind that, here's a BLAZING red cat!!
 
@@ -44,7 +43,7 @@ class SecretBlazingCat implements OnResponse {
                                 (,(,.'     ))       (_ /    /
                                     (,(,(,_)mrf      (,(,(,_)
                 TEXT;
-            $modifier->setData($data);
+            $modifier->withData($data);
         }
         return ok();
     }

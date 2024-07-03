@@ -28,8 +28,8 @@ function plain(#[Query] string $name = '') {
 
 function main(ServerInterface $server, RouterInterface $router, OpenApiInterface $openApi) {
     return anyError(function() use ($server, $router, $openApi) {
-        $openApi->setTitle('My Title');
-        $openApi->setVersion('0.0.1');
+        $openApi->withTitle('My Title');
+        $openApi->withVersion('0.0.1');
         
         $router->get('/plain', plain(...))->try();
         registerSwaggerUi($router)->try();

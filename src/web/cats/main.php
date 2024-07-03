@@ -2,7 +2,6 @@
 use function CatPaw\Core\anyError;
 use function CatPaw\Core\asFileName;
 use CatPaw\Core\Unsafe;
-
 use const CatPaw\Web\APPLICATION_JSON;
 use CatPaw\Web\Attributes\Consumes;
 use CatPaw\Web\Attributes\ProducesPage;
